@@ -1,12 +1,18 @@
-# Astro
+# Astro - astronomy formulas and some time/date code 
 
-Some of Jan Meeus' astronomical formulas coded in Julia.
+Here are some astronomy-related formulas. It consists of some of Jan Meeus' astronomical formulas, coded in Julia as a kind of learning exercise...
 
 ## Status
 
+<<<<<<< HEAD
 This is currently half-finished. Some of the tests pass, others fail. And more and better tests need to be written. I don't understand some of the code (which has been borrowed from all the different versions that are floating around on the Internet, in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
+=======
+This is currently half-finished, and 'half' is putting it very optimistically... :) 
+
+Some of the tests pass, others fail. More and better tests need to be written. I don't understand some of the code (which has been borrowed from all the different versions that are floating around on the Internet, in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
+>>>>>>> FETCH_HEAD
  
-It's on my back burner until the syntax of Julia settles down a bit (they're going to change the dictionary syntax, for example, for version 0.4).
+It's on the back burner until the syntax of Julia settles down a bit (they're going to change the dictionary syntax, for example, for version 0.4).
 
 Contributions very welcome!
 
