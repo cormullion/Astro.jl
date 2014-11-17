@@ -4,17 +4,13 @@ Some of Jan Meeus' astronomical formulas coded in Julia.
 
 ## Status
 
-This is currently half-finished, and 'half' is putting it very optimistically... :) 
-
-Some of the tests pass, others fail. More and better tests need to be written.
-
-I don't understand some of the code (which has been borrowed from all the different versions that are floating around on the Internet, in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
+This is currently half-finished. Some of the tests pass, others fail. And more and better tests need to be written. I don't understand some of the code (which has been borrowed from all the different versions that are floating around on the Internet, in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
  
 It's on my back burner until the syntax of Julia settles down a bit (they're going to change the dictionary syntax, for example, for version 0.4).
 
 Contributions very welcome!
 
-As of October 17, 2014:
+As of November 17 2014:
 
     $ cd Astro.jl/
     $ julia test/run-tests.jl
@@ -26,13 +22,13 @@ As of October 17, 2014:
 		PASSED:   dynamical-tests.jl
 		PASSED:   earth-tests.jl
 		PASSED:   kepler-tests.jl
-		PASSED:   moon-tests.jl
 		PASSED:   nutation-tests.jl
 		PASSED:   pluto-tests.jl
 		PASSED:   riseset-tests.jl
 		PASSED:   sidereal-tests.jl
 		PASSED:   utils-tests.jl
 	 Failed:
+ 		FAILED:   moon-tests.jl
 		FAILED:   equinox-tests.jl
 		FAILED:   planet-tests.jl
 		FAILED:   sun-tests.jl

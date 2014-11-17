@@ -2,7 +2,9 @@ module Astro
 
 println("loading files")
 
-if VERSION <= v"0.3"
+global dname = dirname(Base.source_path()) # used in vsop87d to load data
+
+if VERSION <= v"0.4"
     using Dates
 else
     using Base.Dates

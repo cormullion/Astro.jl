@@ -16,22 +16,20 @@ export
 =#
 
 # This global dict will contain any vsop planet data loaded from file...
-# Julia version 0.3 only
 
 global planet_data = (String => Any)[] 
 
-# data files stored here
-
-vsop_data_path = join({abspath(pwd()), "/src/data/"})
-
 function load_planet_data(planet) 
+    # if data for planet hasn't been loaded before, load some from file
+    global planet_data, dname
 
-    # if data for planet hasn't been loaded before, load it from file
-    global planet_data
+    datapath = join([dname, "/data/"])
+    
     if !haskey(planet_data, planet)
-        planet_data[planet] = include(join({vsop_data_path, "$(lowercase(planet))_vsop_data.jl"}))
+        planet_data[planet] = include("$(datapath)/$(lowercase(planet))_vsop_data.jl")
+        println("loaded data")
     else
-        # println("$planet data already loaded")
+        println("$planet data already loaded")
     end
     return planet_data[planet]
 end
