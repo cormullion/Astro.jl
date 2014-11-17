@@ -1,6 +1,6 @@
-# Astro - astronomy formulas and some time/date code 
+# Astro - astronomy formulas and some time/date code in Julia
 
-Here are some astronomy-related formulas. It consists of some of Jan Meeus' astronomical formulas, coded in Julia as a kind of learning exercise...
+Here are some astronomy-related formulas. It consists of some of Jan Meeus' astronomical formulas, coded up in Julia as a learning exercise...
 
 ## Status
 
@@ -28,7 +28,7 @@ As of November 17 2014:
 		PASSED:   sidereal-tests.jl
 		PASSED:   utils-tests.jl
 	 Failed:
- 		FAILED:   moon-tests.jl
+		FAILED:   moon-tests.jl
 		FAILED:   equinox-tests.jl
 		FAILED:   planet-tests.jl
 		FAILED:   sun-tests.jl
