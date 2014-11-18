@@ -24,8 +24,7 @@ Return geocentric ecliptic longitude, latitude and radius.
 =#
 function sun_dimension3(jd)
     (L, B, R) = vsop87d_dimension(jd, "Earth")
-    # return (mod2pi(L + pi), -B, R) 
-    return (L, B, R)
+    return (mod2pi(L + pi), -B, R) # was return (L, B, R)
 end
 
 #

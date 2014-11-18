@@ -4,37 +4,37 @@ Here are some astronomy-related formulas. It consists of some of Jan Meeus' astr
 
 ## Status
 
-This is currently 60% (+/- 20%) complete. Some of the tests pass, others fail. And more and better tests need to be written. I don't understand some of the code (which has been borrowed from all the different versions that are floating around on the Internet, in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
+This is currently 60% (+/- 20%) complete. Some of the tests pass, others fail. And more and better tests need to be written. I don't understand some of the code (which has been compiled from numerous sources written in C, IDL,  Python, etc. Problems with the rise and set code especially, but see also the TODO annotated lines...
  
 It's on the back burner until the syntax of Julia settles down a bit (they're going to change the dictionary syntax, for example, for version 0.4).
 
 Contributions very welcome!
 
-As of November 17 2014:
+As of November 18 2014:
 
-    $ cd Astro.jl/
-    $ julia test/run-tests.jl
+	$ cd Astro.jl/
+	$ julia test/run-tests.jl
 
-    ...
-    Passed:
+	...
+	Passed:
 		PASSED:   calendar-tests.jl
 		PASSED:   coordinates-test.jl
 		PASSED:   dynamical-tests.jl
 		PASSED:   earth-tests.jl
 		PASSED:   kepler-tests.jl
+		PASSED:   moon-tests.jl
 		PASSED:   nutation-tests.jl
 		PASSED:   pluto-tests.jl
 		PASSED:   riseset-tests.jl
 		PASSED:   sidereal-tests.jl
 		PASSED:   utils-tests.jl
-	 Failed:
-		FAILED:   moon-tests.jl
+	Failed:
 		FAILED:   equinox-tests.jl
 		FAILED:   planet-tests.jl
 		FAILED:   sun-tests.jl
 	$
 
-## Usage
+	## Usage
 
 	julia> using Astro
 	loading files
