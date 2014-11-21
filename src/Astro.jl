@@ -2,7 +2,7 @@ module Astro
 
 println("loading files")
 
-global dname = dirname(Base.source_path()) # used in vsop87d to load data
+global dname = dirname(Base.source_path()) # used in vsop87d.jl to load data
 
 if VERSION <= v"0.4"
     using Dates
@@ -47,7 +47,7 @@ end
 
 println("finished loading files")
 
-# London
+# set location to London
 set_latitude(deg2rad(52))
 set_longitude(deg2rad(0))
 

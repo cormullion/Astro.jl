@@ -27,9 +27,9 @@ function load_planet_data(planet)
     
     if !haskey(planet_data, planet)
         planet_data[planet] = include("$(datapath)/$(lowercase(planet))_vsop_data.jl")
-        println("loaded data")
+        # println("loaded data")
     else
-        println("$planet data already loaded")
+        # println("$planet data already loaded")
     end
     return planet_data[planet]
 end
