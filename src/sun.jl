@@ -55,13 +55,13 @@ function longitude_radius_low(jd)
     T = jd_to_jcent(jd) # julian centuries from J2000.0
     L0 = polynomial(_kL0, T) # geometric mean longitude of sun for mean equinox
     M = polynomial(_kM, T) # mean anomaly of sun
-    e = polynomial({0.016708634, -0.000042037, -0.0000001267}, T) # eccentricity of Earth's orbit
+    e1 = polynomial({0.016708634, -0.000042037, -0.0000001267}, T) # eccentricity of Earth's orbit
     C = (polynomial(_kC, T) * sin(M))
         + ((_ck3 - _ck4 * T) * sin(2 * M))
         + (_ck5 * sin(3 * M)) # equation of the center
     L = mod2pi(L0 + C) # true longitude
     v = M + C # true anomaly
-    R = 1.000001018 * (1 - e * e) / (1 + e * cos(v)) # radius vector
+    R = 1.000001018 * (1 - e1 * e1) / (1 + e1 * cos(v)) # radius vector
     return (L, R)
 end
 
@@ -113,10 +113,10 @@ end
 function rectangular_md(jd)
     L, B, R = sun_dimension3(jd)
     L, B = vsop_to_fk5(jd, L, B)
-    e = obliquity_high(jd)
+    e1 = obliquity_high(jd)
     X = R * cos(B) * cos(L)
-    Y = R * (cos(B)*sin(L)*cos(e) - sin(B)*sin(e))
-    Z = R * (cos(B)*sin(L)*sin(e) + sin(B)*cos(e))
+    Y = R * (cos(B)*sin(L)*cos(e1) - sin(B)*sin(e1))
+    Z = R * (cos(B)*sin(L)*sin(e1) + sin(B)*cos(e1))
     return (X, Y, Z)
 end
 

@@ -161,6 +161,7 @@ Convert an hour angle in hour, minute, seconds to decimal degrees.
 
 =#
 function hangle_to_dec_deg(hour, minute, second)
+    global seconds_per_day
     s = abs(hour) * 3600 + abs(minute) * 60 + abs(second)
     s = mod(s, seconds_per_day)
     if hour < 0 || minute < 0 || second < 0
@@ -187,7 +188,8 @@ Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
         seccond : 0..59
 =#
 
-function fday_to_hms(day)
+function fday_to_hms(day)    
+    global seconds_per_day
     tsec = day * seconds_per_day
     tmin = tsec / 60
     thour = tmin / 60
@@ -210,6 +212,7 @@ Convert hours-minutes-seconds into a fractional day 0.0..1.0.
 
 =#
 function hms_to_fday(hr, mn, seconds)
+    global minutes_per_day, seconds_per_day
     return ((hr / 24.0) + (mn / minutes_per_day) + (seconds / seconds_per_day))
 end
 

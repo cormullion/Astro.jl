@@ -121,9 +121,9 @@ function nut_in_lon(jd)
     D, M, M1, F, omega = nutation_constants(T)
     deltaPsi = 0.0
     for v in nutation_table
-    (tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT) = v
-    arg = D*tD + M*tM + M1*tM1 + F*tF + omega*tomega
-    deltaPsi = deltaPsi + (tpsiK/10000.0 + tpsiT/100000.0 * T) * sin(arg)
+        (tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT) = v
+        arg = D*tD + M*tM + M1*tM1 + F*tF + omega*tomega
+        deltaPsi = deltaPsi + (tpsiK/10000.0 + tpsiT/100000.0 * T) * sin(arg)
     end
     return deg2rad(deltaPsi/3600) 
 end
@@ -237,6 +237,7 @@ Return the nutation in right ascension (also called equation of the equinoxes.)
 =#
 
 function nut_in_ra(jd)
+    global days_per_second
     deltapsi = rad2deg(nut_in_lon(jd)) * 3600     # deltapsi in seconds
     epsilon  = true_obliquity(jd)                 # Epsilon kept in radians
     c = deltapsi * cos(epsilon)/15                # result in seconds...

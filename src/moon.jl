@@ -415,6 +415,7 @@ end
 =#
 
 function moon_age_location(jd::Float64)
+    global earth_equ_radius
     v  = (jd - 2451550.1) / 29.530588853
     ip = v-ifloor(v)
     ag = ip * 29.530588853   # Moon's age from new moon in days
@@ -605,6 +606,7 @@ end
 =#
 
 function moon_illuminated_fraction_high(jd::Float64)
+    global km_per_au
     (lambda, bbeta, delta) = moon_dimension3(jd)  # Moon's geocentric longitude, latitude and radius
     (lambda0, bbeta0, R)   = sun_dimension3(jd)   # Sun's geocentric longitude, latitude and radius
     
@@ -898,6 +900,7 @@ function moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
 end
 
 function moon_horizontal_parallax(jd::Float64)
+    global earth_equ_radius
     R = moon_dimension(jd, "R")
     return asin(deg2rad(earth_equ_radius/R))
 end
@@ -1033,6 +1036,7 @@ end
 =#
 
 function moon_altitude(jd::Float64)
+    global longitude
     (l, b, r)   = moon_dimension3(jd) # geocentric longitude in radians, geocentric latitude in radians, radius in km
     o           = true_obliquity(jd)
     (ra, de)    = ecl_to_equ(l, b, o)
@@ -1127,6 +1131,7 @@ Return the standard altitude of the Moon.
 =#
 
 function moon_rst_altitude(r)
+    global earth_equ_radius, standard_rst_altitude
     # horizontal parallax
     parallax = asin(earth_equ_radius / r)
     return 0.7275 * parallax + standard_rst_altitude

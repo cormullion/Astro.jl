@@ -94,7 +94,7 @@ be careful with the next two as they don't take into account the current Dayligh
 =#
 
 function date_to_jd(yr, mo, d, h, m, s, gregorian=true)
-   return(cal_to_jd(yr, mo, d) + hms_to_fday(h,m,s))
+   return(cal_to_jd(yr, mo, d, gregorian) + hms_to_fday(h,m,s))
 end
 
 #=
@@ -309,7 +309,6 @@ function moslem_to_christian(h, m, d)
     # Convert to MJD
     jd = ifloor(365.25*(X-1)) + 1721423 + J
     alpha = ifloor((jd-1867216.25)/36524.25)
-    bbeta
     if jd < 2299161
         # Before 1582, Oct 15th
         bbeta = jd
@@ -319,13 +318,13 @@ function moslem_to_christian(h, m, d)
     b = bbeta+1524
     c = ifloor((b-122.1)/365.25)
     d = ifloor(365.25*c)
-    e = ifloor((b-d)/30.6001)
-    D = b-d-ifloor(30.6001*e)
-    if e < 14
-        M = e-1 else M = e-13
+    e1 = ifloor((b-d)/30.6001)
+    D = b-d-ifloor(30.6001*e1)
+    if e1 < 14
+        M = e1 - 1 else M = e1 - 13
     end
     if M > 2
-        X = c-4716 else X = c-4715
+        X = c - 4716 else X = c - 4715
     end
     return (X, M, D)
 end
@@ -342,10 +341,10 @@ function christian_to_moslem(X, M, D, gregorian=true)
         b = ifloor(365.25 * X) + ifloor(30.6001*(M+1)) + D + 1722519 + bbeta
         c = ifloor((b-122.1)/365.25)
         d = ifloor(365.25 * c)
-        e = ifloor((b - d)/30.6001)
-        D = b-d-ifloor(30.6001 * e)
-        if e < 14
-            M = e-1 else M = e-13
+        e1 = ifloor((b - d)/30.6001)
+        D = b-d-ifloor(30.6001 * e1)
+        if e1 < 14
+            M = e1 - 1 else M = e1 - 13
         end
         if M > 2
             X = c-4716
@@ -423,13 +422,13 @@ function easter(yr, gregorian=true)
         b = ifloor(yr / 100)
         c = yr % 100
         d = ifloor(b / 4)
-        e = b % 4
+        e1 = b % 4
         f = ifloor((b + 8) / 25)
         g = ifloor((b - f + 1) / 3)
         h = (19 * a + b - d - g + 15) % 30
         i = ifloor(c / 4)
         k = c % 4
-        l = (32 + 2 * e + 2 * i - h - k) % 7
+        l = (32 + 2 * e1 + 2 * i - h - k) % 7
         m = ifloor((a + 11 * h + 22 * l) / 451)
         tmp = h + l - 7 * m + 114
     else
@@ -437,8 +436,8 @@ function easter(yr, gregorian=true)
         b = yr % 7
         c = yr % 19
         d = (19 * c + 15) % 30
-        e = (2 * a + 4 * b - d + 34) % 7
-        tmp = d + e + 114
+        e1 = (2 * a + 4 * b - d + 34) % 7
+        tmp = d + e1 + 114
     end
     mo = ifloor(tmp / 31)
     dy = (tmp % 31) + 1
@@ -476,7 +475,7 @@ Is this instant within the Daylight Savings Time period
         True if Daylight Savings Time is in effect, False otherwise.
 =#
 function is_dst(jd::Float64)
-
+    global daylight_timezone_name
     if daylight_timezone_name == ""
         return false
     end
@@ -525,9 +524,7 @@ end
 
 #=
 
-Using proper Julia Dates module
-
-Timezones are currently not done - everything's in UTC.
+This now uses Julia Dates module. Timezones are currently not done - everything's in UTC.
 
 Convert time in Julian Days to a formatted string.
 
@@ -591,6 +588,7 @@ not yet doing time zones... :(
 
 =#
 function ut_to_lt(jd::Float64)
+    global daylight_timezone_name, daylight_timezone_offset, standard_timezone_name, standard_timezone_offset
     if is_dst(jd)
         zone   = daylight_timezone_name
         offset = daylight_timezone_offset

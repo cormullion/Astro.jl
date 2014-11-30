@@ -14,6 +14,7 @@ export
 =#
 
 function geodesic_distance(L1, B1, L2, B2)
+    global earth_equ_radius, earth_flattening
     F = (B1+B2)/2
     G = (B1-B2)/2
     lambda = (L1-L2)/2
@@ -54,11 +55,12 @@ Convert geographical latitude to geocentric latitude
 =#
 
 function geographical_to_geocentric_lat(phi, H)
-     ratio = (1-earth_flattening)
-     u = atan2(ratio*sin(phi), cos(phi))
-     r = H/6378140
-     rhosinphi1 = ratio*sin(u) + r*sin(phi)
-     rhocosphi1 = cos(u) + r*cos(phi)
-     phi1 = atan2(rhosinphi1, rhocosphi1)
+    global earth_flattening
+    ratio = (1-earth_flattening)
+    u = atan2(ratio*sin(phi), cos(phi))
+    r = H/6378140
+    rhosinphi1 = ratio*sin(u) + r*sin(phi)
+    rhocosphi1 = cos(u) + r*cos(phi)
+    phi1 = atan2(rhosinphi1, rhocosphi1)
     return (phi1, rhosinphi1, rhocosphi1)
 end

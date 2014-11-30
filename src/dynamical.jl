@@ -334,6 +334,7 @@ Convert Julian Day from dynamical to terrestrial universal time.
 
 =#
 function dt_to_ut(jd::Float64)
+    global seconds_per_day
     return jd - deltaT_seconds(jd) / seconds_per_day
 end 
 
