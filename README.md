@@ -34,7 +34,7 @@ As of November 18 2014:
 		FAILED:   sun-tests.jl
 	$
 
-	## Usage
+## Usage
 
 	julia> using Astro
 	loading files
