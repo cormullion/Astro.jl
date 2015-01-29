@@ -13,7 +13,7 @@ Contributions very welcome!
 As of November 18 2014:
 
 	$ cd Astro.jl/
-	$ julia test/run-tests.jl
+	$ julia test/runtests.jl
 
 	...
 	Passed:
