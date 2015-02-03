@@ -1,1 +1,3 @@
-*.mem, *.cov, *.DS_Store
+*mem
+*cov
+.DS_Store
