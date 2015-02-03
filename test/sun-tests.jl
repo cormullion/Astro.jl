@@ -21,9 +21,10 @@ println(" passed\n\n")
 print("28.a Equation of time")
 # Find equation of time on 1992 October 13 at 0h
 # should be 13.70949 minutes, 13m42.6s
-E = equation_time(cal_to_jd(1992,10,13)) |> radianstime_to_fday |> fday_to_hms
-@test(E[2] == 13)
-@test_approx_eq_eps(E[3], 42, .5) # half a second
+E = equation_time(cal_to_jd(1992,10,13)) 
+@test_approx_eq_eps(E, 13.7, .5) # half a second?
+E = equation_time(cal_to_jd(1980,7,27.5)) 
+@test_approx_eq_eps(E, -6.4, .1)
 println(" passed")
 
 #=

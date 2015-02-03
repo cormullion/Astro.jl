@@ -126,7 +126,7 @@ end
     	jd: julian day in dynamic time
     	
     Returns:
-    	Equation of time in radians (2Pi radians = 24 hours)
+    	Equation of time in minutes, can be positive or negative
 =#
 
 function equation_time(jd)
@@ -138,5 +138,9 @@ function equation_time(jd)
     deltaPsi   = nut_in_lon(jd)
     epsilon    = true_obliquity(jd)
     asc,decl   = ecl_to_equ(L, B, epsilon)
-    return L0 - deg2rad(0.0057183) - asc + deltaPsi * cos(epsilon)
+    eqt = L0 - deg2rad(0.0057183) - asc + deltaPsi * cos(epsilon)
+    if eqt > pi/2
+        eqt = -((2 * pi) - eqt)
+    end
+    return eqt/(2 * pi) * 1440
 end
