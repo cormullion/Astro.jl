@@ -64,7 +64,7 @@ function planet_dimension(jd, planet_data_dim)
         tauN = tauN*tau # last one is wasted
     end
    
-    return X
+    return X 
 end
 
 #=
@@ -85,6 +85,7 @@ end
 function vsop87d_dimension(jd, planet)
     planet_data = load_planet_data(planet)
     L = planet_dimension(jd, planet_data["L"])
+    L = mod2pi(L)
     B = planet_dimension(jd, planet_data["B"])
     R = planet_dimension(jd, planet_data["R"])
     return (L, B, R)
