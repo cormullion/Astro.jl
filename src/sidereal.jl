@@ -1,15 +1,15 @@
-export  
+export
     apparent_sidereal_time_greenwich,
     mean_sidereal_time_greenwich
 
-#= Sidereal time at Greenwich
+"""
+ Sidereal time at Greenwich
 
     Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
 
-=#
+"""
 
-#=
-
+"""
 mean_sidereal_time_greenwich(jd)
 
     Return the mean sidereal time at Greenwich.
@@ -22,7 +22,7 @@ mean_sidereal_time_greenwich(jd)
         Return:
             sidereal time in radians (2pi radians = 24 hrs)
 
-=#
+"""
 
 function mean_sidereal_time_greenwich(jd)
     T = jd_to_jcent(jd)
@@ -33,7 +33,8 @@ function mean_sidereal_time_greenwich(jd)
     return mod2pi(result)
 end
 
-#=
+"""
+
 apparent_sidereal_time_greenwich(jd)
 
     Return the apparent sidereal time at Greenwich.
@@ -46,7 +47,7 @@ apparent_sidereal_time_greenwich(jd)
     Return:
         sidereal time in radians (2pi radians = 24 hrs)
 
-=#
+"""
 
 function apparent_sidereal_time_greenwich(jd)
     # Nutation in right ascension should be computed from the DT julian date

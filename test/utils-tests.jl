@@ -1,6 +1,6 @@
 using Base.Test, Astro
 
-# references are to a book by Meeus 
+# references are to a book by Meeus
 
 print("Degrees to Degrees Minutes Seconds")
 @test(d_to_dms(45.5) == (45.0,30.0,0.0))
@@ -117,11 +117,11 @@ print("fractional day and hms day conversions")
 println(" passed")
 
 print("3.1 Interpolation")
-y = interpolate3(0.18125, {0.884226, 0.877366, 0.870531})
+y = interpolate3(0.18125, [0.884226, 0.877366, 0.870531])
 @test_approx_eq_eps(y, 0.876125, 1e-6)
-@test_approx_eq_eps(interpolate_angle3(1, {0,30,60}), 34.86725, 0.01)
-@test_approx_eq_eps(interpolate_angle3(0, {0,30,60}), 30.0, 0.01)
-@test_approx_eq_eps(interpolate_angle3(-1, {0,30,60}), 25.13, 0.01)
+@test_approx_eq_eps(interpolate_angle3(1, [0, 30,60]), 34.86725, 0.01)
+@test_approx_eq_eps(interpolate_angle3(0, [0, 30,60]), 30.0, 0.01)
+@test_approx_eq_eps(interpolate_angle3(-1, [0, 30,60]), 25.13, 0.01)
 println(" passed")
 
 print("polynomials")

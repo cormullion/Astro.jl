@@ -64,7 +64,7 @@ yr, mo, day = jd_to_date(jd)
 @test mo == 11
 @test day == 26
 dow = jd_to_day_of_week(jd)
-@test dow == 1 
+@test dow == 1
 println(" passed")
 
 print("7.f Day of the year")
@@ -89,14 +89,14 @@ mo, day = day_of_year_to_cal(1988, 113)
 @test day == 22
 println(" passed")
 
-tbl = { 
+tbl = Array[
     [1991, 3, 31],
     [1992, 4, 19],
     [1993, 4, 11],
     [1954, 4, 18],
     [2000, 4, 23],
     [1818, 3, 22]
-}
+]
 
 print("8(pg 68) Gregorian Easter (6 times)")
 for (yr, mo, day) in tbl
@@ -106,7 +106,7 @@ for (yr, mo, day) in tbl
     println()
     @test xmo == mo
     @test xday == day
-end    
+end
 println(" passed")
 
 print("8(pg 69) Julian Easter (3 times)")

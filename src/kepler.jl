@@ -1,7 +1,6 @@
 export solve_kepler
 
-#=
-
+"""
 solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
 
     Solves Kepler's equation for the eccentric anomaly
@@ -12,7 +11,7 @@ solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
     eccentricity    -- eccentricity of the ellipse defaulting to 1e-6
 
     Returns: eccentric anomaly in radians.
-    
+
     M = E - e sin E
 
     to get the time, t, or position, n, in orbit.
@@ -20,7 +19,7 @@ solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
         cos n = [cos E - e]/[1 - e cos E]
 
     and
-    
+
         cos E = [cos n + e]/[1 + e cos n]
 
     will be needed.
@@ -32,7 +31,7 @@ solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
         P = period of the orbit
         n = true anomaly = angle of the object in obit relative to the perihelion
 
-=#
+"""
 
 function solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
     eccentric_anomaly = mean_anomaly

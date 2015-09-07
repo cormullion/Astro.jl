@@ -5,7 +5,8 @@ export
     equ_to_horiz1, 
     geocentric_to_topocentric 
 
-#=
+"""
+
 ecl_to_equ(long, lat, obliquity)
 
 Convert ecliptic to equatorial coordinates. 
@@ -20,7 +21,8 @@ Convert ecliptic to equatorial coordinates.
     Returns:
         Right ascension in radians (2 pi is 24 hours)
         Declination in radians
-=#
+
+"""
 
 function ecl_to_equ(long, lat, obliquity)
     cose = cos(obliquity)
@@ -35,7 +37,8 @@ function ecl_to_equ(long, lat, obliquity)
     return (ra, declin)
 end
 
-#=
+"""
+
 equ_to_horiz(H, decl)
 Convert equatorial to horizontal coordinates.
     
@@ -52,7 +55,8 @@ Convert equatorial to horizontal coordinates.
     Returns:
         azimuth in radians
         altitude in radians
-=#
+
+"""
 
 function equ_to_horiz(H, decl)
     global latitude
@@ -71,7 +75,8 @@ function equ_to_horiz(H, decl)
     return (azi, alt)
 end
 
-#=
+"""
+
 equ_to_ecl(ra, declin, obliquity)
 Convert equatorial to ecliptic coordinates. 
     
@@ -85,7 +90,8 @@ Convert equatorial to ecliptic coordinates.
     Returns:
         ecliptic longitude in radians
         ecliptic latitude in radians
-=#
+
+"""
 
 function equ_to_ecl(ra, declin, obliquity)
     cose = cos(obliquity)
@@ -96,7 +102,8 @@ function equ_to_ecl(ra, declin, obliquity)
     return (long, lat)
 end
 
-#=
+"""
+
 geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
 Convert geocentric to topocentric coordinates. 
     
@@ -114,7 +121,8 @@ Convert geocentric to topocentric coordinates.
     Returns:
         topocentric right ascension in radians
         topocentric declination in radians
- =#
+ 
+"""
 
 function geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
      sinparallax = sin(deg2rad(8.794/3600))/d

@@ -1,44 +1,39 @@
 export
-    geocentric_planet, 
-    planet_dimension, 
-    vsop_to_fk5, 
+    geocentric_planet,
+    planet_dimension,
+    vsop_to_fk5,
     vsop87d_dimension,
-    planet_data 
-    
-#=
+    planet_data
 
+"""
     The VSOP87d planetary position model
 
     L is ecliptic longitude
     B is ecliptic latitude
     R is radius vector from sun
 
-=#
+"""
 
 # This global dict will contain any vsop planet data loaded from file...
 
-global planet_data = (String => Any)[] 
+global planet_data = Dict{AbstractString,Any}()
 
-function load_planet_data(planet) 
+function load_planet_data(planet)
     # if data for planet hasn't been loaded before, load some from file
     global planet_data, dname
 
     datapath = join([dname, "/data/"])
-    
+
     if !haskey(planet_data, planet)
         planet_data[planet] = include("$(datapath)/$(lowercase(planet))_vsop_data.jl")
-        # println("loaded data")
-    else
-        # println("$planet data already loaded")
     end
     return planet_data[planet]
 end
 
-#=
-
+"""
     Return one of heliocentric ecliptic longitude, latitude and radius.
         [Meeus-1998: pg 218]
-        
+
         Parameters:
             jd : Julian Day in dynamical time
             planet_data_dim: a slice of the data for L, B, or R
@@ -47,7 +42,8 @@ end
             longitude in radians, or
             latitude in radians, or
             radius in au
-=#
+
+"""
 
 function planet_dimension(jd, planet_data_dim)
     X = 0.0
@@ -63,31 +59,31 @@ function planet_dimension(jd, planet_data_dim)
         X = X + seriesSum * tauN
         tauN = tauN*tau # last one is wasted
     end
-   
-    return X 
+
+    return X
 end
 
-#=
-
+"""
     Return heliocentric ecliptic longitude, latitude and radius.
-        
+
         Parameters:
             jd : Julian Day in dynamical time
-            planet : must be one of ("Mercury", "Venus", "Earth", "Mars", 
+            planet : must be one of ("Mercury", "Venus", "Earth", "Mars",
                 "Jupiter", "Saturn", "Uranus", "Neptune")
-            
+
         Returns:
             longitude in radians
             latitude in radians
             radius in au
-=#
+
+"""
 
 function vsop87d_dimension(jd, planet)
-    planet_data = load_planet_data(planet)
-    L = planet_dimension(jd, planet_data["L"])
+    pdata = load_planet_data(planet)
+    L = planet_dimension(jd, pdata["L"])
     L = mod2pi(L)
-    B = planet_dimension(jd, planet_data["B"])
-    R = planet_dimension(jd, planet_data["R"])
+    B = planet_dimension(jd, pdata["B"])
+    R = planet_dimension(jd, pdata["R"])
     return (L, B, R)
 end
 
@@ -98,28 +94,28 @@ _k1 = deg2rad(-0.00031)
 _k2 = deg2rad(dms_to_d(0, 0, -0.09033))
 _k3 = deg2rad(dms_to_d(0, 0,  0.03916))
 
-#=   
+"""
+    Convert VSOP to FK5 coordinates.
 
-    Convert VSOP to FK5 coordinates. 
-    
-    This is required only when using the full precision of the 
+    This is required only when using the full precision of the
     VSOP model.
-    
+
     [Meeus-1998: pg 219]
-    
+
     Parameters:
         jd : Julian Day in dynamical time
         L : longitude in radians
         B : latitude in radians
-        
+
     Returns:
         corrected longitude in radians
         corrected latitude in radians
-=#
-  
+
+"""
+
 function vsop_to_fk5(jd, L, B)
     T = jd_to_jcent(jd)
-    L1 = polynomial({L, _k0, _k1}, T)
+    L1 = polynomial([L, _k0, _k1], T)
     cosL1 = cos(L1)
     sinL1 = sin(L1)
     deltaL = _k2 + _k3 * (cosL1 + sinL1) * tan(B)
@@ -127,25 +123,25 @@ function vsop_to_fk5(jd, L, B)
     return (mod2pi(L + deltaL), B + deltaB)
 end
 
-#=
-
+"""
     Calculate the equatorial coordinates of a planet
-    
+
     The results will be geocentric, corrected for light-time and
     aberration.
-    
+
     Parameters:
         jd : Julian Day in dynamical time
-        planet : must be one of ("Mercury", "Venus", "Earth", "Mars", 
+        planet : must be one of ("Mercury", "Venus", "Earth", "Mars",
             "Jupiter", "Saturn", "Uranus", "Neptune")
         deltaPsi : nutation in longitude, in radians
         epsilon : True obliquity (corrected for nutation), in radians
         delta : desired accuracy, in days
-        
+
     Returns:
         right accension, in radians
         declination, in radians
-=#
+
+"""
 
 function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
     t = jd
@@ -181,8 +177,8 @@ function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
         # light time in days
         tau = 0.0057755183 * dist
 
-        if abs(diff_angle(l, l0)) < (pi * 2) * delta 
-            break 
+        if abs(diff_angle(l, l0)) < (pi * 2) * delta
+            break
         end
 
         # adjust for light travel time and try again

@@ -2,7 +2,8 @@ export
     geodesic_distance,
     geographical_to_geocentric_lat
 
-#=
+"""
+
     Computes the geodesic distance between two points on the Earth with a ~50 meters precision
     
     Parameters:
@@ -11,7 +12,8 @@ export
         
     Returns:
         distance in km
-=#
+
+"""
 
 function geodesic_distance(L1, B1, L2, B2)
     global earth_equ_radius, earth_flattening
@@ -37,8 +39,7 @@ function geodesic_distance(L1, B1, L2, B2)
     return D * (1 + earth_flattening * (H1 * sF * sF * cG * cG - H2 * cF * cF * sG *sG))
 end
 
-#=
-
+"""
 Convert geographical latitude to geocentric latitude
     
     [Meeus-1998: chapter 11]
@@ -52,7 +53,7 @@ Convert geographical latitude to geocentric latitude
         rho*sin(phi1)
         rho*cos(phi1)
 
-=#
+"""
 
 function geographical_to_geocentric_lat(phi, H)
     global earth_flattening

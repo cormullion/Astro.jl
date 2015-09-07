@@ -1,4 +1,3 @@
-
 # nicked from DataFrames
 fatalerrors = length(ARGS) > 0 && ARGS[1] == "-f"
 quiet = length(ARGS) > 0 && ARGS[1] == "-q"
@@ -8,10 +7,11 @@ push!(LOAD_PATH, "src")
 
 using Astro
 using Base.Test
+using Compat
 
 loaddebugflag = false
-    
-my_tests = {
+
+my_tests = Array([
     "calendar-tests.jl",
     "coordinates-test.jl",
     "dynamical-tests.jl",
@@ -26,21 +26,21 @@ my_tests = {
     "sidereal-tests.jl",
     "sun-tests.jl",
     "utils-tests.jl"
-}
+])
 
 println("Running tests:")
 
-passed = {}
-failed = {}
+passed = []
+failed = []
 
 for my_test in my_tests
     try
         include(my_test)
         println("\t\033[1m\033[32mPASSED\033[0m: $(my_test)")
-        push!(passed, my_test) 
+        push!(passed, my_test)
     catch e
         anyerrors = true
-        push!(failed, my_test) 
+        push!(failed, my_test)
         println("\t\033[1m\033[31mFAILED\033[0m: $(my_test)")
         if fatalerrors
             rethrow(e)

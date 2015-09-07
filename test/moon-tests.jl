@@ -10,8 +10,8 @@ L, B, R = moon_dimension3(cal_to_jd(1992,4,12))
 # beta -3d.229126
 # delta 368409.7 km
 # pi 0.991990
- 
-@test_approx_eq_eps(rad2deg(L), 133.162, .1) # 0.1 degree OK? 
+
+@test_approx_eq_eps(rad2deg(L), 133.162, .1) # 0.1 degree OK?
 @test_approx_eq_eps(rad2deg(B), -3.229126, 1e-6) # degrees
 @test_approx_eq_eps(R, 368409.7, 0.1) # km
 
@@ -46,7 +46,7 @@ println(" passed")
 
 print("48.a (2) Illuminated fraction of moon's disk (low precision)")
 k = moon_illuminated_fraction_low(cal_to_jd(1992, 4, 12))
-@test_approx_eq_eps(k, 0.680, 0.001) 
+@test_approx_eq_eps(k, 0.680, 0.001)
 println(" passed")
 
 print("49.a New moon")
@@ -67,7 +67,7 @@ println(" passed")
 
 print("50 Moon apogee")
 jd, parallax = moon_apogee_perigee_time_low(cal_to_jd(1988, 10, 1), 1)
-# Apogee time 
+# Apogee time
 @test_approx_eq_eps(jd * seconds_per_day/60, 2447442.3537 * seconds_per_day / 60, 1) # minutes
 # parallax
 @test_approx_eq_eps(parallax, 3240.679, 1) # seconds
@@ -76,15 +76,15 @@ println(" passed")
 print("50 Moon perigee (p 361)")
 jd, para = moon_apogee_perigee_time_low(cal_to_jd(1997, 12, 9), 0)
 # Perigee time
-@test_approx_eq_eps(jd, 2450792.2059, 0.1) 
+@test_approx_eq_eps(jd, 2450792.2059, 0.1)
 jd, para = moon_apogee_perigee_time_low(cal_to_jd(1998, 1, 3), 0)
-# Perigee time" 
-@test_approx_eq_eps(jd, 2450816.8549, 0.1) 
+# Perigee time"
+@test_approx_eq_eps(jd, 2450816.8549, 0.1)
 jd, para = moon_apogee_perigee_time_low(cal_to_jd(1990, 12, 2), 0)
 # Perigee time
-@test_approx_eq_eps(jd, 2448227.9505, 0.1) 
+@test_approx_eq_eps(jd, 2448227.9505, 0.1)
 jd, para = moon_apogee_perigee_time_low(cal_to_jd(1990, 12, 30), 0)
-# Perigee time 
+# Perigee time
 @test_approx_eq_eps(jd, 2448256.4941, 0.1)
 println(" passed")
 
@@ -92,7 +92,7 @@ print("51.a Moon ascending node time")
 # node()
 #    	- jd: julian date
 #    	- desc_not_asc: 0 for the ascending node, 1 for the descending node
-# returns jd of the closer passage 
+# returns jd of the closer passage
 jd = moon_node(cal_to_jd(1987, 5, 15), 0)
 @test_approx_eq_eps(jd, 2446938.76, 0.01)
 println(" passed")
@@ -119,7 +119,7 @@ nearest_last  = moon_nearest_phase(jd + 10, 3)
 println(" passed")
 
 print("Moon position")
-# Duffett-Smith: what was the position of the Moon on Feb 26 1979 at 16h 00 m UT 
+# Duffett-Smith: what was the position of the Moon on Feb 26 1979 at 16h 00 m UT
 # Should be ra 22 33 29s decl -8 02 42s
 jd = date_to_jd(1979,2,26,16,0,0)
 geoecl_long, geoecl_lat, rad = moon_dimension3(jd)
@@ -134,7 +134,7 @@ ra_deg = ra_rad / (2 * pi) |> fday_to_hms
 println(" passed")
 
 println("Moon rise and moon set")
-# Duffett-Smith what were the times of moonrise and moonset on Sept 6 1979 
+# Duffett-Smith what were the times of moonrise and moonset on Sept 6 1979
 # as observed from longitude 0N and latitude 52N
 # ephemeris says 18h46m and 04h58m
 latitude = deg2rad(52)
@@ -147,16 +147,18 @@ hr, mn, sc = fday_to_hms(r - jd)
 @test_approx_eq_eps(mn, 46, 30) # TODO moon_riseset test within 30 minutes???
 
 hr, mn, sc = fday_to_hms(s - jd)
-@test_approx_eq_eps(hr,4, 1) # 
+@test_approx_eq_eps(hr,4, 1) #
 @test_approx_eq_eps(mn, 58, 300)  # within 240 minutes (4 hours) ???
 
 println()
 
-#= TODO moon-tests.jl more still to be tested:
+"""
+ TODO moon-tests.jl more still to be tested:
 moon_horizontal_parallax(jd::Float64)
 moon_mean_ascending_node_longitude(jd)
 moon_mean_perigee_longitude(jd::Float64)
 moon_node(jd::Float64, desc_not_asc)
 moon_radius(jd::Float64)
 moon_true_ascending_node_longitude(jd::Float64)
-=#
+
+"""

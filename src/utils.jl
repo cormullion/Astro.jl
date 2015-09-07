@@ -1,19 +1,19 @@
-export 
-    d_to_dms, 
-    diff_angle, 
-    dms_to_d, 
-    fday_to_hms, 
+export
+    d_to_dms,
+    diff_angle,
+    dms_to_d,
+    fday_to_hms,
     radianstime_to_fday,
-    hangle_to_dec_deg_alt, 
-    hangle_to_dec_deg, 
-    hms_to_fday, 
-    interpolate_angle3, 
-    interpolate3, 
-    @polynomial_horner, 
-    polynomial, 
-    quadratic_interpolation, 
-    quadratic_roots, 
-    set_latitude, 
+    hangle_to_dec_deg_alt,
+    hangle_to_dec_deg,
+    hms_to_fday,
+    interpolate_angle3,
+    interpolate3,
+    @polynomial_horner,
+    polynomial,
+    quadratic_interpolation,
+    quadratic_roots,
+    set_latitude,
     set_longitude
 
 # Meeus chapter 4, quadratic curve fitting:
@@ -46,13 +46,14 @@ function quadratic_roots(a, b, c)
         return (false, false)
     end
     if delta == 0
-        return (-b/2/a, -b/2/a) 
+        return (-b/2/a, -b/2/a)
     end
     sqd = sqrt(delta)
     return ((-b + sqd)/2/a, (-b - sqd)/2/a)
 end
 
-#= Convert an angle in decimal degrees to degree components.
+"""
+ Convert an angle in decimal degrees to degree components.
 
     Return a tuple (degrees, minutes, seconds). Degrees and minutes
     will be integers, seconds may be floating.
@@ -70,18 +71,18 @@ end
         minutes
         seconds
 
-=#
+"""
 
 function d_to_dms(x)
     if x < 0
-    negative = true 
-    else 
+    negative = true
+    else
     negative = false
     end
     x = abs(x)
-    deg = ifloor(x)
+    deg =  floor(Integer, x)
     x = x-deg
-    mn = ifloor(x * 60)
+    mn =  floor(Integer, x * 60)
     x = x - mn / 60.0
     second = x * 3600
     if negative
@@ -96,7 +97,8 @@ function d_to_dms(x)
     return (deg, mn, second)
 end
 
-#=
+"""
+
 Return angle b - a, accounting for circular values.
 
     Parameters a and b should be in the range 0..pi*2. The
@@ -112,7 +114,8 @@ Return angle b - a, accounting for circular values.
 
     Returns:
         b - a, in radians
-=#
+
+"""
 
 function diff_angle(a, b)
     if b < a
@@ -123,7 +126,8 @@ function diff_angle(a, b)
     return mod2pi(result)
 end
 
-#=
+"""
+
 Convert an angle in degree components to decimal degrees.
 
     if any of the components are negative the result will also be negative.
@@ -136,7 +140,7 @@ Convert an angle in degree components to decimal degrees.
     Returns:
         decimal degrees
 
-=#
+"""
 
 function dms_to_d(deg, minute, second)
     result = abs(deg) + (abs(minute) / 60) + (abs(second) / 3600)
@@ -146,7 +150,8 @@ function dms_to_d(deg, minute, second)
     return result
 end
 
-#=
+"""
+
 Convert an hour angle in hour, minute, seconds to decimal degrees.
 
      if any of the components are negative the result will also be negative.
@@ -159,7 +164,7 @@ Convert an hour angle in hour, minute, seconds to decimal degrees.
     Returns:
         decimal degrees
 
-=#
+"""
 function hangle_to_dec_deg(hour, minute, second)
     global seconds_per_day
     s = abs(hour) * 3600 + abs(minute) * 60 + abs(second)
@@ -175,8 +180,8 @@ function hangle_to_dec_deg(hour, minute, second)
     return mod((t * 15), 360)
 end
 
+"""
 
-#=
 Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
 
     Parameters:
@@ -186,9 +191,10 @@ Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
         hour : 0..23
         minute : 0..59
         seccond : 0..59
-=#
 
-function fday_to_hms(day)    
+"""
+
+function fday_to_hms(day)
     global seconds_per_day
     tsec = day * seconds_per_day
     tmin = tsec / 60
@@ -196,10 +202,11 @@ function fday_to_hms(day)
     hour = thour % 24
     minutes = tmin % 60
     seconds = tsec % 60
-    return (ifloor(hour), ifloor(minutes), seconds)
+    return ( floor(Integer, hour),  floor(Integer, minutes), seconds)
 end
 
-#=
+"""
+
 Convert hours-minutes-seconds into a fractional day 0.0..1.0.
 
     Parameters:
@@ -210,23 +217,23 @@ Convert hours-minutes-seconds into a fractional day 0.0..1.0.
     Returns:
         fractional day, 0.0..1.0
 
-=#
+"""
 function hms_to_fday(hr, mn, seconds)
     global minutes_per_day, seconds_per_day
     return ((hr / 24.0) + (mn / minutes_per_day) + (seconds / seconds_per_day))
 end
 
-#=
-
+"""
 Convert a time of day in radians to fractional day 0 through 1
 
-=# 
+"""
 
 function radianstime_to_fday(tr)
     return (tr / (2 * pi))
 end
 
-#=
+"""
+
 Interpolate from three equally spaced tabular values.
 
     [Meeus-1998 equation 3.3]
@@ -238,9 +245,9 @@ Interpolate from three equally spaced tabular values.
     Results:
         the interpolated value of y
 
-=#
+"""
 function interpolate3(n, y)
-    if (n < -1) or (n > 1)
+    if (n < -1) || (n > 1)
     	error("Interpolating factor out of range: $n")
     end
     a = y[2] - y[1]
@@ -249,7 +256,8 @@ function interpolate3(n, y)
     return y[2] + n/2 * (a + b + n*c)
 end
 
-#=
+"""
+
 Interpolate from three equally spaced tabular angular values.
 
     [Meeus-1998 equation 3.3]
@@ -264,7 +272,8 @@ Interpolate from three equally spaced tabular angular values.
 
     Results:
         the interpolated value of y
-=#
+
+"""
 function interpolate_angle3(n, y)
     if (n < -1) || (n > 1)
     	error("Interpolating factor $n out of range")
@@ -275,7 +284,8 @@ function interpolate_angle3(n, y)
     return y[2] + n/2 * (a + b + n*c)
 end
 
-#=
+"""
+
 Evaluate a simple polynomial.
 
     Where: terms[0] is constant, terms[1] is for x, terms[2] is for x^2, etc.
@@ -293,18 +303,20 @@ Evaluate a simple polynomial.
 
     Results:
         value of the polynomial
-=#
+
+"""
 function polynomial(coefficients, x)
     result = 0
     for (power, coefficient) in enumerate(coefficients)
         result += (x ^ (power - 1)) * coefficient
-    end 
+    end
     return result
 end
 
-#= 
+"""
+
 alternatively use this from math.jl
-     
+
      Example
         y = @horner(x, p1, p2, p3)
 
@@ -320,7 +332,7 @@ alternatively use this from math.jl
     Results:
         value of the polynomial
 
-=#
+"""
 
 macro polynomial_horner(x, p...)
     ex = esc(p[end])
