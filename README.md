@@ -1,12 +1,16 @@
 # Astro - astronomy formulas and some time/date code in Julia
 
-This module implements some of Jan Meeus' astronomical formulas.
+This module tries to implement some of Jan Meeus' astronomical formulas.
 
-## Status
+Contributions and improvements very welcome!
 
+<<<<<<< HEAD
 Currently in development, and has been updated to use version 0.4 syntax. However, the code isn't currently very Julian.
+=======
+## Status
+>>>>>>> origin/master
 
-Contributions very welcome!
+It's been updated to use version 0.4 syntax, but there are too many issues with the code...
 
 As of 2015-09-07:
 
@@ -38,37 +42,6 @@ although many more tests are needed to find all those bugs!
 
     using Astro
 
-What are the right ascension and declination of a planet whose ecliptic coordinates are longitude 139°41'10" and latitude 4°52'31"?
-
-    ra, decl = ecl_to_equ(deg2rad(dms_to_d(139, 41, 10)),
-                deg2rad(dms_to_d(4,52,31)), deg2rad(23.4392911));
-
-    ra_deg, decl_deg = map(rad2deg,(ra, decl));
-
-    d_to_dms(ra_deg/15)
-
-    #-> (9,34,53.40627076542424)
-
-    d_to_dms(decl_deg)
-
-    #-> (19,32,14.2)
-
-Calculate the topocentric RA and Dec of Mars on 2003 Aug 28 at 3h17m00 UT at Palomar, longitude 7h47m27s, altitude 1706. Mars' equatorial coordinates: RA 339.530208, decl -15.771083.
-
-    ra, decl = geocentric_to_topocentric(
-                deg2rad(33.356111),
-                1706,
-                deg2rad(116.8625),
-                deg2rad(339.530208),
-                deg2rad(-15.771083), 0.37276,
-                cal_to_jd(2003, 8, 28.136806))
-
-    rad2deg(ra)   # topocentric right ascension
-    #-> 339.5
-
-    rad2deg(decl) # topocentric declination
-    #-> -15.775
-
 What was the Right Ascension and Declination of the Moon on Feb 25 1979 at 16h00m UT?
 
     jd = date_to_jd(1979,2,26,16,0,0);
@@ -87,97 +60,4 @@ What age is it:
 
     moon_age_location(jd)[1]
     #-> 7.302239900906831
-
-## Functions
-
-    aberration_low(R)
-    apparent_longitude_low(jd, L)
-    apparent_sidereal_time_greenwich(jd)
-    astrology(body, jd)
-    biorhythm(jd_origin, jd_current)
-    cal_to_day_of_year(yr, mo, dy, gregorian=true)
-    cal_to_jd_m(yr, mo, day, gregorian=true)
-    cal_to_jd(yr, mo, day, gregorian=true)
-    christian_to_moslem(X, M, D, gregorian=true)
-    d_to_dms(x)
-    date_to_jd(yr, mo, d, h, m, s, gregorian=true)
-    day_of_year_to_cal(yr, N, gregorian=true)
-    deltaT_seconds(jd::Float64)
-    diff_angle(a, b)
-    dms_to_d(deg, minute, second)
-    dt_to_ut(jd::Float64)
-    easter(yr, gregorian=true)
-    eccent_E(T)
-    ecl_to_equ(long, lat, obliquity)
-    equ_to_ecl(ra, declin, obliquity)
-    equ_to_horiz(H, decl)
-    equation_time(jd)
-    equinox_approx(yr, season)
-    equinox(jd::Float64, season, delta)
-    fday_to_hms(day)
-    geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
-    geocentric_pluto(jd)
-    geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
-    geodesic_distance(L1, B1, L2, B2)
-    geographical_to_geocentric_lat(phi, H)
-    hangle_to_dec_deg(hour, minute, second)
-    hangle_to_dec_deg(hour, minute, second)
-    heliocentric_pluto(jd)
-    hms_to_fday(hr, mn, seconds)
-    interpolate_angle3(n, y)
-    interpolate3(n, y)
-    is_dst(jd::Float64)
-    is_leap_year(yr, gregorian=true)
-    jd_to_cal(jd::Float64, gregorian=true)
-    jd_to_date(jd::Float64, gregorian=true)
-    jd_to_day_of_week(jd::Float64)
-    jd_to_jcent(jd::Float64)
-    jewish_new_year(yr)
-    load_planet_data(planet)
-    longitude_radius_low(jd)
-    lt_to_str(jd::Float64, zone="", level="second")
-    lunation(jd::Float64, system=false)
-    mean_sidereal_time_greenwich(jd)
-    moon_age_location(jd::Float64)
-    moon_altitude(jd::Float64)
-    moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
-    moon_constants(T)
-    moon_dimension(jd::Float64, dim)
-    moon_dimension3(jd::Float64)
-    moon_horizontal_parallax(jd::Float64)
-    moon_illuminated_fraction_high(jd::Float64)
-    moon_illuminated_fraction_low(jd::Float64)
-    moon_latitude(jd::Float64)
-    moon_longitude(jd::Float64)
-    moon_mean_ascending_node_longitude(jd)
-    moon_mean_perigee_longitude(jd::Float64)
-    moon_nearest_phase(jd::Float64, phase=0)
-    moon_node(jd::Float64, desc_not_asc)
-    moon_radius(jd::Float64)
-    moon_riseset(jd::Float64)
-    moon_rst_altitude(r)
-    moon_true_ascending_node_longitude(jd::Float64)
-    moslem_to_christian(h, m, d)
-    nut_in_lon(jd)
-    nut_in_obl(jd)
-    nut_in_ra(jd)
-    nutation_constants(T)
-    object_rts_low(jd, ra, decl, h0)
-    obliquity_high(jd)
-    obliquity(jd)
-    pesach(yr, gregorian=true)
-    planet_dimension(jd, planet_data_dim)
-    polynomial(coefficients, x)
-    quadratic_interpolation(x_list, y_list)
-    quadratic_roots(a, b, c)
-    radianstime_to_fday(tr)
-    rectangular_md(jd)
-    set_latitude(lat)
-    set_longitude(long)
-    solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
-    sun_dimension3(jd)
-    tdt_to_bdt(tt, jd)
-    true_obliquity(jd)
-    ut_to_lt(jd::Float64)
-    vsop_to_fk5(jd, L, B)
-    vsop87d_dimension(jd, planet)
+    
