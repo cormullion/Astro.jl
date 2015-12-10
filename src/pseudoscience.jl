@@ -5,9 +5,6 @@ export
 """
     Some pseudoscience. Don't know where these come from, but they're quite funny.
 
-"""
-
-"""
     Return some biorhythm stuff
 
     Parameters:

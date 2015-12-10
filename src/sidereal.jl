@@ -1,13 +1,13 @@
-export
-    apparent_sidereal_time_greenwich,
-    mean_sidereal_time_greenwich
-
-"""
+#=
  Sidereal time at Greenwich
 
     Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
 
-"""
+=#
+
+export
+    apparent_sidereal_time_greenwich,
+    mean_sidereal_time_greenwich
 
 """
 mean_sidereal_time_greenwich(jd)

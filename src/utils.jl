@@ -288,7 +288,7 @@ end
 
 Evaluate a simple polynomial.
 
-    Where: terms[0] is constant, terms[1] is for x, terms[2] is for x^2, etc.
+    Where: terms[1] is constant, terms[2] is for x, terms[3] is for x^2, etc.
 
     Example:
         y = polynomial((1.1, 2.2, 3.3, 4.4), t)
@@ -318,11 +318,11 @@ end
 alternatively use this from math.jl
 
      Example
-        y = @horner(x, p1, p2, p3)
+        y = @polynomial_horner(x, p1, p2, p3)
 
         evaluates p[1] + x     *      (p[2] + x * (....)),
 
-    notice the arguments are differently ordered from polynomial() above
+    Notice the arguments are differently ordered from polynomial() above!
 
     Parameters:
         x : variable value

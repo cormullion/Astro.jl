@@ -1049,11 +1049,18 @@ function moon_altitude(jd::Float64)
     return h
 end
 
-# Rising and setting time of the moon for julian day JD
-# TODO moon_riseset() get this function working
-# TODO moon_riseset() why does this return k
-# TODO moon_riseset() document this function
+"""
 
+    moon_riseset(jd::Float64)
+
+    Rising and setting time of the moon for julian day JD
+
+    Doesn't work.
+
+    # TODO moon_riseset() get this function working
+    # TODO moon_riseset() why does this return k
+
+"""
 function moon_riseset(jd::Float64)
     (moonrise, moonset, k, nsteps, uroot) = (false, false, 0, 24, false)
     (jd_list, v_list) = ([0, 1, 2], [0.0, 0.0, 0.0])
@@ -1078,7 +1085,7 @@ function moon_riseset(jd::Float64)
             # Convert Julian Day from dynamical to terrestrial universal time
             ut = dt_to_ut(j)
 
-            println("j $j $(jd_to_date(j)) ut $ut \n slope $slope $(jd_to_date(ut))")
+            #println("j $j $(jd_to_date(j)) ut $ut \n slope $slope $(jd_to_date(ut))")
 
             if slope > 0
                 moonrise = ut
@@ -1137,4 +1144,3 @@ function moon_rst_altitude(r)
     parallax = asin(earth_equ_radius / r)
     return 0.7275 * parallax + standard_rst_altitude
 end
-

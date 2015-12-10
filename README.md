@@ -4,7 +4,7 @@ This module implements some of Jan Meeus' astronomical formulas.
 
 ## Status
 
-Currently in development, and has been updated to use version 0.4 syntax.
+Currently in development, and has been updated to use version 0.4 syntax. However, the code isn't currently very Julian.
 
 Contributions very welcome!
 

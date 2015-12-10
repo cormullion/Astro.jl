@@ -18,8 +18,8 @@ export
     lt_to_str,
     ut_to_lt
 
-"""
- A collection of date and time functions.
+doc"""
+A collection of date and time functions.
 
 Some of these have/should be changed to use the built-in Dates module.
 
@@ -29,17 +29,13 @@ Unless otherwise specified, Julian Day Numbers are fractional values.
 
 Numeric years use the astronomical convention of a year 0: 0 = 1BC, -1 = 2BC, etc.
 
-Numeric months are 1-based: Jan = 1...Dec = 12.
+Numeric months are 1-based: Jan = 1 Dec = 12.
 
 Numeric days are the same as the calendar value.
 
 Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
 
-"""
-
-"""
-
-Return True if this is a leap year in the Julian or Gregorian calendars
+    Return True if this is a leap year in the Julian or Gregorian calendars
 
     Parameters:
         yr        : year
@@ -59,7 +55,7 @@ function is_leap_year(yr, gregorian=true)
     end
 end
 
-"""
+doc"""
 
 Convert a date in the Julian or Gregorian calendars to the Julian Day Number
 
@@ -600,9 +596,6 @@ Convert universal time in Julian Days to a time.
         Julian Day number, time
         zone string of the zone used for the conversion
 
-"""
-
-"""
 not yet doing time zones... :(
 
 """

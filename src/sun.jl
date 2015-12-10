@@ -10,9 +10,6 @@ export
 
 Geocentric solar position and radius, low precision.
 
-"""
-"""
-
 Return geocentric ecliptic longitude, latitude and radius.
 
         Parameters:

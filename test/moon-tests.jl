@@ -128,6 +128,9 @@ ra_deg = ra_rad / (2 * pi) |> fday_to_hms
 @test(ra_deg[1] == 22)
 @test(ra_deg[2] == 33)
 @test_approx_eq_eps(ra_deg[3], 28, 30) # within 30 seconds OK?
+#
+# what about testing dec_rad?
+#
 # long and lat do the same job as moon_dimension3
 @test_approx_eq_eps(moon_longitude(jd), moon_dimension3(jd)[1], 0.01)
 @test_approx_eq_eps(moon_latitude(jd), moon_dimension3(jd)[2], 0.01)
