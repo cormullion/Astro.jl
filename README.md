@@ -1,16 +1,8 @@
 # Astro - astronomy formulas and some time/date code in Julia
 
-This module tries to implement some of Jan Meeus' astronomical formulas.
+This module tries to implement some of Jan Meeus' astronomical formulas. Contributions and improvements very welcome! Currently in development, and has been updated to use version 0.4 syntax.
 
-Contributions and improvements very welcome!
-
-<<<<<<< HEAD
-Currently in development, and has been updated to use version 0.4 syntax. However, the code isn't currently very Julian.
-=======
 ## Status
->>>>>>> origin/master
-
-It's been updated to use version 0.4 syntax, but there are too many issues with the code...
 
 As of 2015-09-07:
 
