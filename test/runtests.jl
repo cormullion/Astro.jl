@@ -1,4 +1,3 @@
-# nicked from DataFrames
 fatalerrors = length(ARGS) > 0 && ARGS[1] == "-f"
 quiet = length(ARGS) > 0 && ARGS[1] == "-q"
 anyerrors = false
@@ -60,4 +59,3 @@ println("Failed:")
 for tst in failed
     println("\t\033[1m\033[31mFAILED\033[0m:   $tst")
 end
-

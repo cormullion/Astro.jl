@@ -54,3 +54,7 @@ mst = fday_to_hms(mod2pi(mean_sidereal_time_greenwich(cal_to_jd(2014,9,21)))/(2 
 @test(mst[1] == 23)
 @test(mst[2] == 59)
 println(" passed")
+
+# Meeus Example 12.a
+# mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |> radianstime_to_fday |> fday_to_hms
+# (13,10,46.366821793410054)

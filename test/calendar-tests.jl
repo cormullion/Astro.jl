@@ -110,7 +110,7 @@ end
 println(" passed")
 
 print("8(pg 69) Julian Easter (3 times)")
-for yr in {179, 711, 1243}
+for yr in [179, 711, 1243]
     mo, day = easter(yr, false)
     @test mo == 4
     @test day == 12
@@ -163,4 +163,3 @@ println(" passed")
 print("Julian date to formatted string 2")
 @test lt_to_str(2456905.90375, "GMT", "day") == "Fri, 05 Sep 2014"
 println(" passed")
-

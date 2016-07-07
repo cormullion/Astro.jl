@@ -52,4 +52,9 @@ What age is it:
 
     moon_age_location(jd)[1]
     #-> 7.302239900906831
-    
+
+Current Greenwich Sidereal Time:
+
+    apparent_sidereal_time_greenwich(Dates.datetime2julian(now())) |> radianstime_to_fday |> fday_to_hms
+
+    #-> (7,55,41.038224676074606) or 7:55:41

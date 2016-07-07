@@ -54,3 +54,19 @@ function apparent_sidereal_time_greenwich(jd)
     # we neglect the difference here
     return mod2pi(mean_sidereal_time_greenwich(jd) + nut_in_ra(jd))
 end
+
+
+# mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |> radianstime_to_fday |> fday_to_hms
+
+# H, the local hour angle measure westwards from the South, can be calculated from
+# H = θ - α
+# or
+# H = θ0 - L - α
+# where θ is the local sidereal time, θ0 the sidereal time at Greenwich, and L the observer's longitude (positive west from Greenwich).
+
+# α is the right ascension in radians
+#
+
+function local_hour_angle(ra, gst)
+    return gst - longitude - ra
+end

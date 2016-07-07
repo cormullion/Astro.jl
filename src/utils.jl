@@ -154,7 +154,7 @@ end
 
 Convert an hour angle in hour, minute, seconds to decimal degrees.
 
-     if any of the components are negative the result will also be negative.
+     ??if any of the components are negative the result will also be negative.??
 
     Parameters:
         hour : hours
@@ -164,16 +164,43 @@ Convert an hour angle in hour, minute, seconds to decimal degrees.
     Returns:
         decimal degrees
 
+        The local hour angle (LHA) of an object in the observer's sky is
+
+        LHA
+        object
+        LST
+        α
+        object
+         (If result is negative, add 360 degrees. If result is greater than 360, subtract 360 degrees.)
+        or
+        LHA
+        object
+        GST
+        λ
+        observer
+        α
+        object
+
+        where LHAobject is the local hour angle of the object, LST is the local sidereal time,
+        α
+        object
+         is the object's right ascension, GST is Greenwich sidereal time and
+        λ
+        observer
+         is the observer's longitude (positive west from the prime meridian).[3] These angles can be measured in time (24 hours to a circle) or in degrees (360 degrees to a circle)— one or the other, not both.
+
+        Negative hour angles indicate the time until the next transit across the meridian; an hour angle of zero means the object is on the meridian.
+
 """
-function hangle_to_dec_deg(hour, minute, second)
-    global seconds_per_day
-    s = abs(hour) * 3600 + abs(minute) * 60 + abs(second)
-    s = mod(s, seconds_per_day)
-    if hour < 0 || minute < 0 || second < 0
-    	s = -s
-    end
-    return mod(s, seconds_per_day)
-end
+# function hangle_to_dec_deg(hour, minute, second)
+#     global seconds_per_day
+#     s = abs(hour) * 3600 + abs(minute) * 60 + abs(second)
+#     s = mod(s, seconds_per_day)
+#     if hour < 0 || minute < 0 || second < 0
+#     	s = -s
+#     end
+#     return mod(s, seconds_per_day)
+# end
 
 function hangle_to_dec_deg(hour, minute, second)
     t = dms_to_d(hour, minute, second)
@@ -218,12 +245,14 @@ Convert hours-minutes-seconds into a fractional day 0.0..1.0.
         fractional day, 0.0..1.0
 
 """
+
 function hms_to_fday(hr, mn, seconds)
     global minutes_per_day, seconds_per_day
     return ((hr / 24.0) + (mn / minutes_per_day) + (seconds / seconds_per_day))
 end
 
 """
+
 Convert a time of day in radians to fractional day 0 through 1
 
 """
@@ -343,11 +372,9 @@ macro polynomial_horner(x, p...)
 end
 
 function set_latitude(lat)
-     global latitude
-     latitude = lat
+     global latitude = lat
 end
 
 function set_longitude(long)
-     global longitude
-     longitude = long
+     global longitude = long
 end
