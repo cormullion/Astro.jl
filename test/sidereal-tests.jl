@@ -58,3 +58,26 @@ println(" passed")
 # Meeus Example 12.a
 # mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |> radianstime_to_fday |> fday_to_hms
 # (13,10,46.366821793410054)
+
+
+#=
+
+function gmst(dt::DateTime)
+    jd = Dates.datetime2julian(dt)
+    theta0 = mean_sidereal_time_greenwich(jd) # theta0 is mean sidereal time in radians (2pi radians = 24 hrs)
+    theta0_st = fday_to_hms(theta0 / (pi * 2)) # is a tuple!
+end
+
+# from https://www.cv.nrao.edu/~rfisher/Ephemerides/times.html
+
+function gmst1(dt::DateTime)
+    jd  = Dates.datetime2julian(dt)
+    d =   jd - 2451545.0
+    T =  d/36525
+    gmst = 24110.54841 + 8640184.812866T + 0.093104(T^2) - 0.0000062(T^3)
+    # difference from UT1
+    gmst += (Dates.hour(dt) * 60 * 60) + (Dates.minute(dt) * 60) + Dates.second(dt)
+    return fday_to_hms((gmst % 86400) / 86400)
+end
+
+=#
