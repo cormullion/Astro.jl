@@ -59,7 +59,6 @@ println(" passed")
 # mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |> radianstime_to_fday |> fday_to_hms
 # (13,10,46.366821793410054)
 
-
 #=
 
 function gmst(dt::DateTime)

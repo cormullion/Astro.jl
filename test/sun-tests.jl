@@ -17,7 +17,6 @@ println("\nL is $(rad2deg(L)) degrees, R is $R au")
 @test_approx_eq_eps(rad2deg(L), 199.90895, 1e-2) # should be 1e-5 ?
 println(" passed\n\n")
 
-
 print("28.a Equation of time")
 # Find equation of time on 1992 October 13 at 0h
 # should be 13.70949 minutes, 13m42.6s
@@ -103,4 +102,3 @@ X, Y, Z = rectangular_md(2448908.5)
 @test_approx_eq_eps(Y*km_per_au, -0.3116544*km_per_au, .1) # ..
 @test_approx_eq_eps(Z*km_per_au, -0.1351215*km_per_au, .1) # ..
 println(" passed")
-

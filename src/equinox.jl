@@ -6,7 +6,7 @@ export
 
 # Meeus-1998 Table 27.A
 
-equinox_approx_1000 = Dict{ASCIIString,Array{Float64,1}}(
+equinox_approx_1000 = Dict{String,Array{Float64,1}}(
     "spring" => [1721139.29189, 365242.13740,  0.06134,  0.00111, -0.00071],
     "summer" => [1721233.25401, 365241.72562, -0.05323,  0.00907, -0.00025],
     "autumn" => [1721325.70455, 365242.49558, -0.11677, -0.00297,  0.00074],
@@ -15,7 +15,7 @@ equinox_approx_1000 = Dict{ASCIIString,Array{Float64,1}}(
 
 # Meeus-1998 Table 27.B
 
-equinox_approx_3000 = Dict{ASCIIString,Array{Float64,1}}(
+equinox_approx_3000 = Dict{String,Array{Float64,1}}(
     "spring" => [2451623.80984, 365242.37404,  0.05169, -0.00411, -0.00057],
     "summer" => [2451716.56767, 365241.62603,  0.00325,  0.00888, -0.00030],
     "autumn" => [2451810.21715, 365242.01767, -0.11575,  0.00337,  0.00078],

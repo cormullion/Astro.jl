@@ -610,5 +610,3 @@ function ut_to_lt(jd::Float64)
     end
     return (jd - offset/24, zone)
 end
-
-

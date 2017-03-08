@@ -46,7 +46,6 @@ global longitude = deg2rad(-7.27)
 
 global latitude =  deg2rad(43.7)
 
-
 # Month names. There must be twelve. The default is three-character
 # abbreviations so that listings line up.
 
