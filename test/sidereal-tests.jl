@@ -47,7 +47,7 @@ mst_g = fday_to_hms(mean_sidereal_time_greenwich(cal_to_jd(1987, 4, 10)) / (2 * 
 ast_g = fday_to_hms(apparent_sidereal_time_greenwich(cal_to_jd(1987, 4, 10)) / (2 * pi))
 @test(ast_g[1] == 13)
 @test(ast_g[2] == 10)
-@test_approx_eq_eps(ast_g[3], 46.1351, 0.3) #  good enough?
+@test ast_g[3] ≈  46.1351 atol= 0.3#  good enough?
 
 # mean sidereal time and gmt/ut should be the same around September 21/22
 mst = fday_to_hms(mod2pi(mean_sidereal_time_greenwich(cal_to_jd(2014,9,21)))/(2 * pi))

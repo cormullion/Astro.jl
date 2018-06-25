@@ -64,10 +64,10 @@ azi_deg = rad2deg(azi)
 alt_deg = rad2deg(alt)
 @test(d_to_dms(azi_deg)[1] == 283)
 @test_approx_eq_eps(d_to_dms(azi_deg)[2], 16, 0.1)
-@test_approx_eq_eps(d_to_dms(azi_deg)[3], 16, 0.4) # only accurate to 0.4
+@test d_to_dms(azi_deg)[3] ≈  16 atol= 0.4# only accurate to 0.4
 @test(d_to_dms(alt_deg)[1] == 19.0)
 @test(d_to_dms(alt_deg)[2] == 20.0)
-@test_approx_eq_eps(d_to_dms(alt_deg)[3], 4, 0.4) # only accurate to 0.4 seconds???
+@test d_to_dms(alt_deg)[3] ≈  4 atol= 0.4# only accurate to 0.4 seconds???
 println(" passed")
 
 print("40.a topocentric right ascension and declination")

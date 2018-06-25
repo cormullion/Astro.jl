@@ -6,7 +6,6 @@ push!(LOAD_PATH, "src")
 
 using Astro
 using Base.Test
-using Compat
 
 loaddebugflag = false
 

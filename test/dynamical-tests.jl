@@ -7,7 +7,7 @@ println("10.1 Dynamical Time and Universal Time")
 jd = cal_to_jd(1990,1,27) + hms_to_fday(0,0,0)
 @test_approx_eq_eps(jd, 2.4479185e6, 0.1)
 deltat = deltaT_seconds(jd)
-@test_approx_eq_eps(deltat, 57, 1) # accurate to a second -— good enough?
+@test deltat ≈  57 atol= 1# accurate to a second -— good enough?
 println(" passed")
 
 println("10.2 Dynamical Time and Universal Time")

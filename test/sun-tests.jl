@@ -10,18 +10,18 @@ print("25.a Sun position, low precision")
 #          apparent RA 13h13m30.749s
 #          apparent decl -1d47m01.74s
 L, R = longitude_radius_low(2448908.5)
-@test_approx_eq_eps(rad2deg(L), 199.90988, 1e-2) # should be 1e-5 ?
+@test rad2deg(L) ≈  199.90988 atol= 1e-2# should be 1e-5 ?
 @test_approx_eq_eps(R, 0.99766, 1e-5)
 L = apparent_longitude_low(2448908.5, L)
 println("\nL is $(rad2deg(L)) degrees, R is $R au")
-@test_approx_eq_eps(rad2deg(L), 199.90895, 1e-2) # should be 1e-5 ?
+@test rad2deg(L) ≈  199.90895 atol= 1e-2# should be 1e-5 ?
 println(" passed\n\n")
 
 print("28.a Equation of time")
 # Find equation of time on 1992 October 13 at 0h
 # should be 13.70949 minutes, 13m42.6s
 E = equation_time(cal_to_jd(1992,10,13))
-@test_approx_eq_eps(E, 13.7, .5) # half a second?
+@test E ≈  13.7 atol= .5# half a second?
 E = equation_time(cal_to_jd(1980,7,27.5))
 @test_approx_eq_eps(E, -6.4, .1)
 println(" passed")
@@ -80,7 +80,7 @@ L, B, R = sun_dimension3(2448908.5)
 
 # meeus gives L as 19°.907372, B as -0.000179, R as 0.99760775
 
-@test_approx_eq_eps(rad2deg(L), 199.907372  , 1) # <<<<<<<<<<<<<<<<<===== fails
+@test rad2deg(L) ≈  199.907372   atol= 1# <<<<<<<<<<<<<<<<<===== fails
 @test_approx_eq_eps(rad2deg(B) , 0.644, .1)
 @test_approx_eq_eps(R * km_per_au, 0.99760775 * km_per_au, .1)
 L, B = vsop_to_fk5(2448908.5, L, B)
@@ -91,14 +91,14 @@ aberration = aberration_low(R)
 println(" passed")
 
 print("\n\n25.b Sun position, high precision (complete theory pg 165)")
-@test_approx_eq_eps(rad2deg(L) * 3600 * 100, dms_to_d(199, 54, 26.18) * 3600 * 100, 1)
+@test rad2deg(L) * 3600 * 100 ≈  dms_to_d(199 atol= 54, 26.18* 3600 * 100, 1)
 @test_approx_eq_eps(rad2deg(B) * 3600 * 100, 0.72 * 100, 1)
 @test_approx_eq_eps(R, 0.99760853, 1e-8)
 println(" passed")
 
 print("\n\n26.a 1 rectangular coordinates of the sun, relative to the mean equinox of the date")
 X, Y, Z = rectangular_md(2448908.5)
-@test_approx_eq_eps(X*km_per_au, -0.9379952*km_per_au, .1) # <<<<<<<<<<<<<<<<<<<<<===== fails
-@test_approx_eq_eps(Y*km_per_au, -0.3116544*km_per_au, .1) # ..
-@test_approx_eq_eps(Z*km_per_au, -0.1351215*km_per_au, .1) # ..
+@test X*km_per_au ≈  -0.9379952*km_per_au atol= .1# <<<<<<<<<<<<<<<<<<<<<===== fails
+@test Y*km_per_au ≈  -0.3116544*km_per_au atol= .1# ..
+@test Z*km_per_au ≈  -0.1351215*km_per_au atol= .1# ..
 println(" passed")

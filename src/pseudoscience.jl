@@ -20,10 +20,10 @@ function biorhythm(jd_origin, jd_current)
     pi2 = pi * 2
 
     t = jd_current - jd_origin
-    physical     = round(sin(pi2 * t/23), 2)
-    emotional    = round(sin(pi2 * t/28), 2)
-    intellectual = round(sin(pi2 * t/33), 2)
-    intuitive    = round(sin(pi2 * t/38), 2)
+    physical     = round(sin(pi2 * t/23), digits=2)
+    emotional    = round(sin(pi2 * t/28), digits=2)
+    intellectual = round(sin(pi2 * t/33), digits=2)
+    intuitive    = round(sin(pi2 * t/38), digits=2)
 
     return (physical, emotional, intellectual, intuitive)
 end

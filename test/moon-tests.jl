@@ -11,9 +11,9 @@ L, B, R = moon_dimension3(cal_to_jd(1992,4,12))
 # delta 368409.7 km
 # pi 0.991990
 
-@test_approx_eq_eps(rad2deg(L), 133.162, .1) # 0.1 degree OK?
-@test_approx_eq_eps(rad2deg(B), -3.229126, 1e-6) # degrees
-@test_approx_eq_eps(R, 368409.7, 0.1) # km
+@test rad2deg(L) ≈  133.162 atol= .1# 0.1 degree OK?
+@test rad2deg(B) ≈  -3.229126 atol= 1e-6# degrees
+@test R ≈  368409.7 atol= 0.1# km
 
 # the other routine:
 
@@ -21,10 +21,10 @@ L = moon_dimension(2448724.5, "L")
 @test_approx_eq_eps(rad2deg(L), 133.162655, 0.1)
 
 B = moon_dimension(2448724.5, "B")
-@test_approx_eq_eps(rad2deg(B), -3.229126, 0.1) # degrees
+@test rad2deg(B) ≈  -3.229126 atol= 0.1# degrees
 
 R = moon_dimension(2448724.5, "R")
-@test_approx_eq_eps(R, 368409.7, 0.1) # km
+@test R ≈  368409.7 atol= 0.1# km
 
 println(" passed")
 
@@ -40,8 +40,8 @@ println(" passed")
 
 print("48.a (1) Illuminated fraction of moon's disk (high precision)")
 k, khi = moon_illuminated_fraction_high(cal_to_jd(1992, 4, 12))
-@test_approx_eq_eps(k, 0.678, 0.001) # percent
-@test_approx_eq_eps(rad2deg(khi), 285, 0.1) # degrees
+@test k ≈  0.678 atol= 0.001# percent
+@test rad2deg(khi) ≈  285 atol= 0.1# degrees
 println(" passed")
 
 print("48.a (2) Illuminated fraction of moon's disk (low precision)")
@@ -68,9 +68,9 @@ println(" passed")
 print("50 Moon apogee")
 jd, parallax = moon_apogee_perigee_time_low(cal_to_jd(1988, 10, 1), 1)
 # Apogee time
-@test_approx_eq_eps(jd * seconds_per_day/60, 2447442.3537 * seconds_per_day / 60, 1) # minutes
+@test jd * seconds_per_day/60 ≈  2447442.3537 * seconds_per_day / 60 atol= 1# minutes
 # parallax
-@test_approx_eq_eps(parallax, 3240.679, 1) # seconds
+@test parallax ≈  3240.679 atol= 1# seconds
 println(" passed")
 
 print("50 Moon perigee (p 361)")
@@ -112,7 +112,7 @@ nearest_first = moon_nearest_phase(jd, 1)
 nearest_full  = moon_nearest_phase(jd + 10, 2) # get next, not nearest
 nearest_last  = moon_nearest_phase(jd + 10, 3)
 
-@test_approx_eq_eps(nearest_new, date_to_jd(2014,10,23,21,57, 0), .001) # within about 2 minutes
+@test nearest_new ≈  date_to_jd(2014 atol=10,23,21,57, 0), .001# within about 2 minutes
 @test_approx_eq_eps(nearest_first, date_to_jd(2014,10,31,2,48, 0), .001)
 @test_approx_eq_eps(nearest_full, date_to_jd(2014,11,6,22,23, 0), .001)
 @test_approx_eq_eps(nearest_last, date_to_jd(2014,11,14,15,16, 0), .001)
@@ -127,7 +127,7 @@ ra_rad, dec_rad = ecl_to_equ(geoecl_long, geoecl_lat, obliquity(jd))
 ra_deg = ra_rad / (2 * pi) |> fday_to_hms
 @test(ra_deg[1] == 22)
 @test(ra_deg[2] == 33)
-@test_approx_eq_eps(ra_deg[3], 28, 30) # within 30 seconds OK?
+@test ra_deg[3] ≈  28 atol= 30# within 30 seconds OK?
 #
 # what about testing dec_rad?
 #
@@ -147,11 +147,11 @@ r,s = moon_riseset(jd)
 d1, d2 = map(jd_to_date, (r,s))
 hr, mn, sc = fday_to_hms(r - jd)
 @test(hr == 18)
-@test_approx_eq_eps(mn, 46, 30) # TODO moon_riseset test within 30 minutes???
+@test mn ≈  46 atol= 30# TODO moon_riseset test within 30 minutes???
 
 hr, mn, sc = fday_to_hms(s - jd)
-@test_approx_eq_eps(hr,4, 1) #
-@test_approx_eq_eps(mn, 58, 300)  # within 240 minutes (4 hours) ???
+@test hr ≈ 4 atol= 1#
+@test mn ≈  58 atol= 300 # within 240 minutes (4 hours) ???
 
 println()
 

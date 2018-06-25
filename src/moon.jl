@@ -642,7 +642,7 @@ function moon_illuminated_fraction_low(jd::Float64)
              - 0.214 * sin(2 * M1)
              - 0.110 * sin(D))
     k = (1 + cos(deg2rad(i)))/2
-    return (round(k, 2))
+    return (round(k, digits=2))
 end
 """
 
@@ -900,7 +900,7 @@ function moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
         parallax = parallax + coef * cos(deg2rad(pD * D + pM * M + pF * F))
     end
 
-    return (round(mean_pa, 4), round(parallax, 3))
+    return (round(mean_pa, digits=4), round(parallax, digits=3))
 end
 
 function moon_horizontal_parallax(jd::Float64)
