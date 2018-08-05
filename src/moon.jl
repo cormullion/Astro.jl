@@ -20,8 +20,7 @@ export
     moon_true_ascending_node_longitude,
     moon_rst_altitude
 
-"""
-
+#=
 Lunar position model ELP2000-82 of Chapront.
 
 The resulting values are for the equinox of date and have been adjusted
@@ -30,7 +29,7 @@ for light-time.
 This is the simplified version of Jean Meeus, _Astronomical Algorithms_,
 second edition, 1998, Willmann-Bell, Inc.
 
-"""
+=#
 
 # [Meeus-1998: table 47.A]
 #
@@ -220,7 +219,6 @@ Return geocentric ecliptic longitude, latitude and radius.
             radius in km, Earth's center to Moon's center
 
 """
-
 function moon_dimension3(jd::Float64)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
@@ -280,7 +278,6 @@ Return the geocentric ecliptic longitude in radians.
 A subset of the logic in moon_dimension3()
 
 """
-
 function moon_longitude(jd::Float64)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
@@ -309,7 +306,6 @@ Return the geocentric ecliptic latitude in radians.
  A subset of the logic in moon_dimension3()
 
 """
-
 function moon_latitude(jd::Float64)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
@@ -343,7 +339,6 @@ end
  A subset of the logic in moon_dimension3()
 
 """
-
 function moon_radius(jd::Float64)
     T = jd_to_jcent(jd)
     (L1, D, M, M1, F, A1, A2, A3, E, E2) = moon_constants(T)
@@ -376,7 +371,6 @@ Return one of geocentric ecliptic longitude, latitude and radius.
             radius in km, Earth's center to Moon's center
 
 """
-
 function moon_dimension(jd::Float64, dim)
     if dim == "L"
         return moon_longitude(jd)
@@ -411,7 +405,6 @@ end
                 ecliptic longitude
 
 """
-
 function moon_age_location(jd::Float64)
     global earth_equ_radius
     v  = (jd - 2451550.1) / 29.530588853
@@ -452,7 +445,6 @@ end
     [Meeus - chapter 49]
 
 """
-
 function moon_nearest_phase(jd::Float64, phase=0)
      _kMean =   [2451550.09766,  29.530588861*1236.85,  0.00015437, -0.000000150, 0.00000000073]
      _kM    =   [      2.55340,  29.105356700*1236.85, -0.0000014,  -0.00000011]
@@ -606,7 +598,6 @@ end
     [Meeus - chapter 48 or 49 depending on edition]
 
 """
-
 function moon_illuminated_fraction_high(jd::Float64)
     global km_per_au
     (lambda, bbeta, delta) = moon_dimension3(jd)  # Moon's geocentric longitude, latitude and radius
@@ -614,13 +605,13 @@ function moon_illuminated_fraction_high(jd::Float64)
 
     R = R * km_per_au
     psi = acos(cos(bbeta) * cos(lambda - lambda0))
-    i = atan2(R * sin(psi), delta - R * cos(psi))
+    i = atan(R * sin(psi), delta - R * cos(psi))
     k = (1+cos(i))/2
 
     o = true_obliquity(jd)
     (asc,  decl)  = ecl_to_equ(lambda, bbeta, o)
     (asc0, decl0) = ecl_to_equ(lambda0, bbeta0, o)
-    khi = atan2(cos(decl0) * sin(asc0 - asc), sin(decl0) * cos(decl) - cos(decl0) * sin(decl) * cos(asc0 - asc))
+    khi = atan(cos(decl0) * sin(asc0 - asc), sin(decl0) * cos(decl) - cos(decl0) * sin(decl) * cos(asc0 - asc))
     return (k, mod2pi(khi))
 end
 
@@ -629,7 +620,6 @@ end
     Same as above - lower precision. Simpler algorithm. Does not return the angle of the bright limb
 
 """
-
 function moon_illuminated_fraction_low(jd::Float64)
     T = jd_to_jcent(jd)
     (L1, D, M, M1) = moon_constants(T)
@@ -654,7 +644,6 @@ end
         mean ascending node or mean perigee longitude in radians
 
 """
-
 function moon_mean_ascending_node_longitude(jd)
     _O = [125.0445479, -1934.1362891, 0.0020754, 1/467441, -1/60616000]
     T = jd_to_jcent(jd)
@@ -691,7 +680,6 @@ end
         parallax in seconds
 
 """
-
 function moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
     (yr, mo, d) = jd_to_cal(jd)
     n = cal_to_day_of_year(yr, mo, d)
@@ -918,7 +906,6 @@ end
         - julian day of the closer passage through the node
 
 """
-
 function moon_node(jd::Float64, desc_not_asc)
     (yr, mo, d) = jd_to_cal(jd)
     n = cal_to_day_of_year(yr, mo, d)
@@ -988,7 +975,6 @@ end
            - The lunation number
 
 """
-
 function lunation(jd::Float64, system=false)
     if system == false
         system = "brown"
@@ -1036,7 +1022,6 @@ end
            - altitude in radians
 
 """
-
 function moon_altitude(jd::Float64)
     global longitude
     (l, b, r)   = moon_dimension3(jd) # geocentric longitude in radians, geocentric latitude in radians, radius in km
@@ -1137,7 +1122,6 @@ Return the standard altitude of the Moon.
         Standard altitude in radians.
 
 """
-
 function moon_rst_altitude(r)
     global earth_equ_radius, standard_rst_altitude
     # horizontal parallax

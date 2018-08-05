@@ -21,7 +21,6 @@ export
 This is the low accuracy part of Meeus' method from chapter 15. The high accuracy interpolation routine is still to be done.
 
 """
-
 function object_rts_low(jd, ra, decl, h0)
     global seconds_per_day, latitude, longitude
     pi2 = pi * 2

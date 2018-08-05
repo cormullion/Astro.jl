@@ -9,11 +9,9 @@ dynamical and universal time.
 
 Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998
 
-"""
-
 # deltat_table is a list of tuples (jd, seconds), giving deltaT values
 # for the beginnings of years in a historical range. [Meeus-1998: table 10.A]
-
+"""
 deltat_table = Array[
     [cal_to_jd(1620, 1, 1), 121.0],
     [cal_to_jd(1622, 1, 1), 112.0],
@@ -271,7 +269,6 @@ Return deltaT as seconds of time.
         deltaT in seconds
 
 """
-
 function deltaT_seconds(jd::Float64)
     yr, mo, day = jd_to_cal(jd)
     jd1, jd0, secs1, secs0 = (0,0,0,0)
@@ -350,7 +347,6 @@ Converts from terrestrial dynamic time to barycentric dynamic time
               barycentric dynamic time
 
 """
-
 function tdt_to_bdt(tt, jd)
     g = 357.33 + 0.9856003*(jd-2451545)
     tdb = tt + 0.001658*sin(g) + 0.000014*sin(2*g)

@@ -23,7 +23,6 @@ mean_sidereal_time_greenwich(jd)
             sidereal time in radians (2pi radians = 24 hrs)
 
 """
-
 function mean_sidereal_time_greenwich(jd)
     T = jd_to_jcent(jd)
     T2 = T * T
@@ -48,7 +47,6 @@ apparent_sidereal_time_greenwich(jd)
         sidereal time in radians (2pi radians = 24 hrs)
 
 """
-
 function apparent_sidereal_time_greenwich(jd)
     # Nutation in right ascension should be computed from the DT julian date
     # we neglect the difference here

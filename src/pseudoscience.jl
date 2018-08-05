@@ -15,7 +15,6 @@ export
         four biorhythms
 
 """
-
 function biorhythm(jd_origin, jd_current)
     pi2 = pi * 2
 
@@ -39,7 +38,6 @@ end
         starsign: string of star sign
 
 """
-
 function astrology(body, jd)
     global days_per_second
     signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio",

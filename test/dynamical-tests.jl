@@ -1,11 +1,11 @@
-using Base.Test, Astro
+using Test, Astro
 
 println("10.1 Dynamical Time and Universal Time")
 # UT is based on the rotation of the earth, but the earth is slowing down and irregular in its orbital habits..
 # DynamicalTime is related to Ephemeris time, but changes year to year.
 # For example, 1990 January 27, 0h UT is 57 seconds later than 1990 January 27, 0h TD.
 jd = cal_to_jd(1990,1,27) + hms_to_fday(0,0,0)
-@test_approx_eq_eps(jd, 2.4479185e6, 0.1)
+@test isapprox(jd, 2.4479185e6, atol=0.1)
 deltat = deltaT_seconds(jd)
 @test deltat ≈  57 atol= 1# accurate to a second -— good enough?
 println(" passed")
@@ -15,5 +15,5 @@ println("10.2 Dynamical Time and Universal Time")
 # deltaT was equal to +48 seconds, correpsonding UT time is 3h36m52s
 jd = cal_to_jd(1977,2,18) + hms_to_fday(3,37,40)
 deltat = deltaT_seconds(jd)
-@test_approx_eq_eps(deltat, 48, 1)
+@test isapprox(deltat, 48, atol=1)
 println(" passed")

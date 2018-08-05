@@ -12,10 +12,8 @@ export
 
     [Meeus-1998: table 22.A]
 
+    #    D, M, M1, F, omega, psiK, psiT, epsK, epsT
 """
-
-#    D, M, M1, F, omega, psiK, psiT, epsK, epsT
-
 nutation_table = Array[
     [ 0,  0,  0,  0,  1, -171996, -1742, 92025,  89],
     [-2,  0,  0,  2,  2,  -13187,   -16,  5736, -31],
@@ -112,7 +110,6 @@ Return the nutation in longitude.
         nutation in longitude, in radians
 
 """
-
 function nut_in_lon(jd)
 
     # TODO nut_in_lon() factor the /1e5 and /1e6 adjustments into the table.
@@ -140,7 +137,6 @@ Return the nutation in obliquity.
         nutation in obliquity, in radians
 
 """
-
 function nut_in_obl(jd)
     #
     # Future optimization: factor the /1e5 and /1e6 adjustments into the table.
@@ -181,7 +177,6 @@ _el0 = Array([deg2rad(dms_to_d(23, 26,  21.448   )),
         obliquity, in radians
 
 """
-
 function obliquity(jd)
     T = jd_to_jcent(jd)
     return polynomial(_el0, T)
@@ -216,7 +211,6 @@ Return the mean obliquity of the ecliptic.
         obliquity, in radians
 
 """
-
 function obliquity_high(jd)
     U = jd_to_jcent(jd) / 100
     return polynomial(_el1, U)
@@ -239,7 +233,6 @@ Return the nutation in right ascension (also called equation of the equinoxes.)
         nutation, in radians
 
 """
-
 function nut_in_ra(jd)
     global days_per_second
     deltapsi = rad2deg(nut_in_lon(jd)) * 3600     # deltapsi in seconds

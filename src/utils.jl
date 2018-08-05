@@ -72,7 +72,6 @@ end
         seconds
 
 """
-
 function d_to_dms(x)
     if x < 0
     negative = true
@@ -116,7 +115,6 @@ Return angle b - a, accounting for circular values.
         b - a, in radians
 
 """
-
 function diff_angle(a, b)
     if b < a
       result = (b + (2 * pi)) - a
@@ -141,7 +139,6 @@ Convert an angle in degree components to decimal degrees.
         decimal degrees
 
 """
-
 function dms_to_d(deg, minute, second)
     result = abs(deg) + (abs(minute) / 60) + (abs(second) / 3600)
     if deg < 0 || minute < 0 || second < 0
@@ -192,6 +189,11 @@ Convert an hour angle in hour, minute, seconds to decimal degrees.
         Negative hour angles indicate the time until the next transit across the meridian; an hour angle of zero means the object is on the meridian.
 
 """
+function hangle_to_dec_deg(hour, minute, second)
+    t = dms_to_d(hour, minute, second)
+    return mod((t * 15), 360)
+end
+
 # function hangle_to_dec_deg(hour, minute, second)
 #     global seconds_per_day
 #     s = abs(hour) * 3600 + abs(minute) * 60 + abs(second)
@@ -201,11 +203,6 @@ Convert an hour angle in hour, minute, seconds to decimal degrees.
 #     end
 #     return mod(s, seconds_per_day)
 # end
-
-function hangle_to_dec_deg(hour, minute, second)
-    t = dms_to_d(hour, minute, second)
-    return mod((t * 15), 360)
-end
 
 """
 
@@ -220,7 +217,6 @@ Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
         seccond : 0..59
 
 """
-
 function fday_to_hms(day)
     global seconds_per_day
     tsec = day * seconds_per_day
@@ -245,7 +241,6 @@ Convert hours-minutes-seconds into a fractional day 0.0..1.0.
         fractional day, 0.0..1.0
 
 """
-
 function hms_to_fday(hr, mn, seconds)
     global minutes_per_day, seconds_per_day
     return ((hr / 24.0) + (mn / minutes_per_day) + (seconds / seconds_per_day))
@@ -256,7 +251,6 @@ end
 Convert a time of day in radians to fractional day 0 through 1
 
 """
-
 function radianstime_to_fday(tr)
     return (tr / (2 * pi))
 end
@@ -362,7 +356,6 @@ alternatively use this from math.jl
         value of the polynomial
 
 """
-
 macro polynomial_horner(x, p...)
     ex = esc(p[end])
     for i = length(p)-1:-1:1

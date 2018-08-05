@@ -1,15 +1,17 @@
+@show "running this file"
+
+using Astro, Test
+
 fatalerrors = length(ARGS) > 0 && ARGS[1] == "-f"
 quiet = length(ARGS) > 0 && ARGS[1] == "-q"
+
 anyerrors = false
 
 push!(LOAD_PATH, "src")
 
-using Astro
-using Base.Test
-
 loaddebugflag = false
 
-my_tests = Array([
+my_tests = String[
     "calendar-tests.jl",
     "coordinates-test.jl",
     "dynamical-tests.jl",
@@ -24,12 +26,12 @@ my_tests = Array([
     "sidereal-tests.jl",
     "sun-tests.jl",
     "utils-tests.jl"
-])
+]
 
 println("Running tests:")
 
-passed = []
-failed = []
+passed = String[]
+failed = String[]
 
 for my_test in my_tests
     try
@@ -37,7 +39,7 @@ for my_test in my_tests
         println("\t\033[1m\033[32mPASSED\033[0m: $(my_test)")
         push!(passed, my_test)
     catch e
-        anyerrors = true
+        global anyerrors = true
         push!(failed, my_test)
         println("\t\033[1m\033[31mFAILED\033[0m: $(my_test)")
         if fatalerrors

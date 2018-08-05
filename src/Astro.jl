@@ -1,6 +1,6 @@
-VERSION >= v"0.4.0-dev+6641" && __precompile__()
-
 module Astro
+
+using Dates
 
 global dname = dirname(Base.source_path()) # used in vsop87d.jl to load data
 

@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 
 using Astro
 
@@ -20,34 +20,34 @@ println(" passed")
 print("7.b Convert Julian date to Julian day number")
 jd = cal_to_jd(333, 1, 27.5, false)
 # currently fails, is off by one
-#    @test_approx_eq_eps(jd, 1842713.0, 0.1)
+#    @test isapprox(jd, 1842713.0, atol=0.1)
 println(" passed")
 
 print("7.b Convert Julian date to Julian day number — meeus")
 jd = cal_to_jd_m(333, 1, 27.5, false)
 # currently fails, is off by one
-#    @test_approx_eq_eps(jd, 1842713.0, 0.1)
+#    @test isapprox(jd, 1842713.0, atol=0.1)
 println(" passed")
 
 print("7.c Convert Julian day number to Gregorian date")
 yr, mo, day = jd_to_cal(2436116.31)
 @test yr == 1957
 @test mo == 10
-@test_approx_eq_eps(day, 4.81, 0.1)
+@test isapprox(day, 4.81, atol=0.1)
 println(" passed")
 
 print("7.c(1) Convert Julian day number to Julian date")
 yr, mo, day = jd_to_cal(1842713.0, false)
 @test yr == 333
 @test mo == 1
-@test_approx_eq_eps(day, 27.5, 0.01)
+@test isapprox(day, 27.5, atol=0.01)
 println(" passed")
 
 print("7.c(2) Convert Julian day number to Julian date")
 yr, mo, day = jd_to_cal(1507900.13, false)
 @test yr == -584
 @test mo == 5
-@test_approx_eq_eps(day, 28.63, 0.01)
+@test isapprox(day, 28.63, atol=0.01)
 println(" passed")
 
 print("7.d Time interval in days")
@@ -144,7 +144,7 @@ print("Julian day to date")
 @test d == 4
 @test h == 19
 @test m == 26
-@test_approx_eq_eps(s, 24, 0.1)
+@test isapprox(s, 24, atol=0.1)
 println(" passed")
 
 # 2014 September 5 09:41:24  2456905.90375 Friday

@@ -5,14 +5,14 @@ export
     vsop87d_dimension,
     planet_data
 
-"""
+#=
     The VSOP87d planetary position model
 
     L is ecliptic longitude
     B is ecliptic latitude
     R is radius vector from sun
 
-"""
+=#
 
 # This global dict will contain any vsop planet data loaded from file...
 
@@ -44,7 +44,6 @@ end
             radius in au
 
 """
-
 function planet_dimension(jd, planet_data_dim)
     X = 0.0
     tauN = 1.0
@@ -77,7 +76,6 @@ end
             radius in au
 
 """
-
 function vsop87d_dimension(jd, planet)
     pdata = load_planet_data(planet)
     L = planet_dimension(jd, pdata["L"])
@@ -112,7 +110,6 @@ _k3 = deg2rad(dms_to_d(0, 0,  0.03916))
         corrected latitude in radians
 
 """
-
 function vsop_to_fk5(jd, L, B)
     T = jd_to_jcent(jd)
     L1 = polynomial([L, _k0, _k1], T)
@@ -142,7 +139,6 @@ end
         declination, in radians
 
 """
-
 function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
     t = jd
     l0 = -100.0 # impossible value
@@ -168,8 +164,8 @@ function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
         # geocentric geometric ecliptic coordinates of the planet
         x2 = x*x
         y2 = y*y
-        l = atan2(y, x)
-        b = atan2(z, sqrt(x2 + y2))
+        l = atan(y, x)
+        b = atan(z, sqrt(x2 + y2))
 
         # distance to planet in AU
         dist = sqrt(x2 + y2 + z*z)

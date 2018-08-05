@@ -21,7 +21,6 @@ Return geocentric ecliptic longitude, latitude and radius.
             radius in au
 
 """
-
 function sun_dimension3(jd)
     (L, B, R) = vsop87d_dimension(jd, "Earth")
     return (mod2pi(L + pi), -B, R) # was return (L, B, R)
@@ -52,7 +51,6 @@ _ck5 = deg2rad( 0.000289)
           longitude in radians
           radius in au
 """
-
 function longitude_radius_low(jd)
     T = jd_to_jcent(jd) # julian centuries from J2000.0
     L0 = polynomial(_kL0, T) # geometric mean longitude of sun for mean equinox
@@ -85,7 +83,6 @@ _lk3 = deg2rad(0.00478)
          corrected longitude in radians
 
 """
-
 function apparent_longitude_low(jd, L)
     T = jd_to_jcent(jd)
     omega = _lk0 - _lk1 * T
@@ -109,7 +106,6 @@ _lk4 = deg2rad(dms_to_d(0, 0, 20.4898))
         correction in radians
 
 """
-
 function aberration_low(R)
     return -_lk4 / R
 end
@@ -139,7 +135,6 @@ end
     	Equation of time in minutes, can be positive or negative
 
 """
-
 function equation_time(jd)
     tau = jd_to_jcent(jd)/10
     _p = [280.4664567, 360007.6982779, 0.03032028, 1/49931, -1/15300, -1/2000000]

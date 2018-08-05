@@ -23,14 +23,13 @@ Convert ecliptic to equatorial coordinates.
         Declination in radians
 
 """
-
 function ecl_to_equ(long, lat, obliquity)
     cose = cos(obliquity)
     sine = sin(obliquity)
     sinl = sin(long)
     x = cos(long)
     y = sinl * cose - tan(lat) * sine
-    alpha1 = atan2(y, x)
+    alpha1 = atan(y, x)
     ra = mod2pi(alpha1)
     # convert to hours
     declin = asin(sin(lat) * cose + cos(lat) * sine * sinl)
@@ -57,7 +56,6 @@ Convert equatorial to horizontal coordinates.
         altitude in radians
 
 """
-
 function equ_to_horiz(H, decl)
     global latitude
     cosH = cos(H)
@@ -65,8 +63,8 @@ function equ_to_horiz(H, decl)
     cosLat = cos(latitude)
     alt = asin((sinLat * sin(decl)) + (cosLat * cos(decl) * cosH))
 
-    # atan2(y,x)... not the other way round
-    azi = atan2((-1 * cos(decl)) * cosLat * sin(H), sin(decl) - (sinLat * sin(alt)))
+    # atan(y,x)... not the other way round
+    azi = atan((-1 * cos(decl)) * cosLat * sin(H), sin(decl) - (sinLat * sin(alt)))
 
     # Duffett-Smith says if azi positive, true azimuth is (360 - azi)
     if sin(H) > 0
@@ -92,12 +90,11 @@ Convert equatorial to ecliptic coordinates.
         ecliptic latitude in radians
 
 """
-
 function equ_to_ecl(ra, declin, obliquity)
     cose = cos(obliquity)
     sine = sin(obliquity)
     sina = sin(ra)
-    long = mod2pi(atan2(sina * cose + tan(declin) * sine, cos(ra)))
+    long = mod2pi(atan(sina * cose + tan(declin) * sine, cos(ra)))
     lat = mod2pi(asin(sin(declin) * cose - cos(declin) * sine * sina))
     return (long, lat)
 end
@@ -123,13 +120,12 @@ Convert geocentric to topocentric coordinates.
         topocentric declination in radians
 
 """
-
 function geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
      sinparallax = sin(deg2rad(8.794/3600))/d
      ha    = mod2pi(apparent_sidereal_time_greenwich(jd) - L - deg2rad(ra* 15))
      p1, psinp1, pcosp1 = geographical_to_geocentric_lat(phi, H)
      tmp   = cos(decl) - pcosp1 * sinparallax * cos(ha)
-     da    = atan2(-pcosp1 * sinparallax * sin(ha), tmp)
-     tdecl = atan2((sin(decl) - psinp1 * sinparallax) * cos(da), tmp)
+     da    = atan(-pcosp1 * sinparallax * sin(ha), tmp)
+     tdecl = atan((sin(decl) - psinp1 * sinparallax) * cos(da), tmp)
     return (ra+da, tdecl)
 end

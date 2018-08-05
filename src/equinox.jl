@@ -67,7 +67,6 @@ Returns the approximate time of a solstice or equinox event.
         Julian Day of the event in dynamical time
 
 """
-
 function equinox_approx(yr, season)
     if yr < -1000 || yr > 3000
       error("year is out of range")
@@ -116,11 +115,8 @@ equinox(jd, season, delta)
         Julian Day of the event in dynamical time
 
 """
-
-# TODO this fails
-
 function equinox(jd::Float64, season, delta)
-
+    # TODO this fails
     # if we knew that the starting approximate time was close enough
     # to the actual time, we could pull nut_in_lon() and the aberration
     # out of the loop and save some calculating.

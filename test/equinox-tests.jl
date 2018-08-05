@@ -1,4 +1,4 @@
-using Base.Test, Astro
+using Test, Astro
 
 # equinox tests from meeus chapter
 
@@ -8,7 +8,7 @@ y, m , d = jd_to_cal(eqa)
 
 @test y == 1962
 @test m == 6
-@test_approx_eq_eps(d, 21, 1)
+@test isapprox(d, 21, atol=1)
 
 println(" passed")
 
@@ -19,7 +19,7 @@ eq = equinox(jd, "Spring", 1) # return jd of equinox to the nearest day
 y, m , d = jd_to_cal(eq)
 @test y == 2007
 @test m == 3
-@test_approx_eq_eps(d, 21, 1)
+@test isapprox(d, 21, atol=1)
 
 println(" passed")
 

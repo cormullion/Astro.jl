@@ -1,4 +1,4 @@
-using Base.Test, Astro
+using Test, Astro
 
 println("15.a Rise, Set, Transit")
 # Meeus chapter 15, pages 103
@@ -30,7 +30,7 @@ jd_rise, jd_transit, jd_set = object_rts_low(ut, ra, decl, h0)
  
 println("jd_rise $(fday_to_hms(jd_rise)), jd_transit $(fday_to_hms(jd_transit)), jd_set $(fday_to_hms(jd_set))")
 
-#@test_approx_eq_eps(jd_rise - ut, 0.51766, 0.1)
+#@test isapprox(jd_rise - ut, 0.51766, atol=0.1)
 
 println("")
 

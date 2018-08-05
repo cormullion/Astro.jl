@@ -32,7 +32,6 @@ solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
         n = true anomaly = angle of the object in obit relative to the perihelion
 
 """
-
 function solve_kepler(mean_anomaly, eccentricity, desired_accuracy = 1e-6)
     eccentric_anomaly = mean_anomaly
     while true

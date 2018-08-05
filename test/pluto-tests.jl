@@ -1,4 +1,4 @@
-using Astro, Base.Test
+using Astro,Test
 
 print("37.a (1) heliocentric coordinates of Pluto")
 L, B, R = heliocentric_pluto(2448908.5)

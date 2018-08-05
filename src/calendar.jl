@@ -18,7 +18,7 @@ export
     lt_to_str,
     ut_to_lt
 
-doc"""
+"""
 A collection of date and time functions.
 
 Some of these have/should be changed to use the built-in Dates module.
@@ -45,7 +45,6 @@ Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann
         True is this is a leap year, else False.
 
 """
-
 function is_leap_year(yr, gregorian=true)
     yr =  floor(Integer, yr)
     if gregorian
@@ -55,7 +54,7 @@ function is_leap_year(yr, gregorian=true)
     end
 end
 
-doc"""
+"""
 
 Convert a date in the Julian or Gregorian calendars to the Julian Day Number
 
@@ -71,7 +70,6 @@ Convert a date in the Julian or Gregorian calendars to the Julian Day Number
 presumably returns midday time, since Julian days start at noon?
 
 """
-
 function cal_to_jd(yr, mo, day, gregorian=true)
     a =  floor(Integer, (14 - mo)/12)
 
@@ -90,14 +88,9 @@ end
 be careful with the next two as they don't take into account the current Daylight Savings Time.
 
 """
-
 function date_to_jd(yr, mo, d, h, m, s, gregorian=true)
    return(cal_to_jd(yr, mo, d, gregorian) + hms_to_fday(h,m,s))
 end
-
-"""
-
-"""
 
 function jd_to_date(jd::Float64, gregorian=true)
     (y, month, df) = jd_to_cal(jd, gregorian)
@@ -156,7 +149,6 @@ end
 Meeus' implementation of cal_to_jd - which gives the same results
 
 """
-
 function cal_to_jd_m(yr, mo, day, gregorian=true)
     if mo <= 2
         yr = yr-1
@@ -211,7 +203,6 @@ end
         day
 
 """
-
 function day_of_year_to_cal(yr, N, gregorian=true)
     if is_leap_year(yr, gregorian)
         K = 1
@@ -239,7 +230,6 @@ Return the date of Jewish Pesach  for a year in the Julian or Gregorian calendar
         month
         day
 Meeus - chapter 9
-
 """
 function pesach(yr, gregorian=true)
     C =  floor(Integer, yr/100)
@@ -290,7 +280,6 @@ Meeus - chapter 9
     622, July 16th
 
 """
-
 function moslem_to_christian(h, m, d)
     N = d +  floor(Integer, 29.5001*(m-1)+0.99)
     Q  =  floor(Integer, h/30)
@@ -424,7 +413,6 @@ Return the date of Western ecclesiastical Easter for a year in the Julian or Gre
      Gregorian formula taken from Wikipedia (for the formula published in Nature, April 20th, 1876)
 
 """
-
 function easter(yr, gregorian=true)
     yr =  floor(Integer, yr)
     if gregorian
@@ -560,7 +548,6 @@ Convert time in Julian Days to a formatted string.
         formatted date/time string
 
 """
-
 function lt_to_str(jd::Float64, zone="", level="second")
     (yr, mon, day) = jd_to_cal(jd)
     (fday, iday) = modf(day)

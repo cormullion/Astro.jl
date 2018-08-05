@@ -1,4 +1,4 @@
-using Base.Test, Astro
+using Test, Astro
 
 print("25.a Sun position, low precision")
 # Meeus page 165
@@ -11,7 +11,7 @@ print("25.a Sun position, low precision")
 #          apparent decl -1d47m01.74s
 L, R = longitude_radius_low(2448908.5)
 @test rad2deg(L) ≈  199.90988 atol= 1e-2# should be 1e-5 ?
-@test_approx_eq_eps(R, 0.99766, 1e-5)
+@test isapprox(R, 0.99766, atol=1e-5)
 L = apparent_longitude_low(2448908.5, L)
 println("\nL is $(rad2deg(L)) degrees, R is $R au")
 @test rad2deg(L) ≈  199.90895 atol= 1e-2# should be 1e-5 ?
@@ -23,7 +23,7 @@ print("28.a Equation of time")
 E = equation_time(cal_to_jd(1992,10,13))
 @test E ≈  13.7 atol= .5# half a second?
 E = equation_time(cal_to_jd(1980,7,27.5))
-@test_approx_eq_eps(E, -6.4, .1)
+@test isapprox(E, -6.4, atol=.1)
 println(" passed")
 
 #=
@@ -45,7 +45,9 @@ Lsun, radius = longitude_radius_low(cal_to_jd(1980,7,27))
 # ecliptic latitude is 0
 Bsun = 0
 obliquity = obliquity_high(jd)
+
 ra, decl = ecl_to_equ(Lsun, Bsun, obliquity)
+
 #println(" For July 27, 1980, the Sun's RA and Dec were")
 #println(" RA: $(d_to_dms(rad2deg(ra))), Decl: $(d_to_dms(rad2deg(decl)))")
 # RA is (126.0,26.0,8.426670651592705), Decl is (19.0,13.0,52.04805574268332)
@@ -81,19 +83,19 @@ L, B, R = sun_dimension3(2448908.5)
 # meeus gives L as 19°.907372, B as -0.000179, R as 0.99760775
 
 @test rad2deg(L) ≈  199.907372   atol= 1# <<<<<<<<<<<<<<<<<===== fails
-@test_approx_eq_eps(rad2deg(B) , 0.644, .1)
-@test_approx_eq_eps(R * km_per_au, 0.99760775 * km_per_au, .1)
+@test isapprox(rad2deg(B) , 0.644, atol=.1)
+@test isapprox(R * km_per_au, 0.99760775 * km_per_au, atol=.1)
 L, B = vsop_to_fk5(2448908.5, L, B)
-@test_approx_eq_eps(rad2deg(L) * 3600, 199.907347 * 3600, .1)
-@test_approx_eq_eps(rad2deg(B) * 3600, 0.62, .1)
+@test isapprox(rad2deg(L) * 3600, 199.907347 * 3600, atol=.1)
+@test isapprox(rad2deg(B) * 3600, 0.62, atol=.1)
 aberration = aberration_low(R)
-@test_approx_eq_eps(rad2deg(aberration) * 3600, -20.539, 0.001)
+@test isapprox(rad2deg(aberration) * 3600, -20.539, atol=0.001)
 println(" passed")
 
 print("\n\n25.b Sun position, high precision (complete theory pg 165)")
 @test rad2deg(L) * 3600 * 100 ≈  dms_to_d(199 atol= 54, 26.18* 3600 * 100, 1)
-@test_approx_eq_eps(rad2deg(B) * 3600 * 100, 0.72 * 100, 1)
-@test_approx_eq_eps(R, 0.99760853, 1e-8)
+@test isapprox(rad2deg(B) * 3600 * 100, 0.72 * 100, atol=1)
+@test isapprox(R, 0.99760853, atol=1e-8)
 println(" passed")
 
 print("\n\n26.a 1 rectangular coordinates of the sun, relative to the mean equinox of the date")
