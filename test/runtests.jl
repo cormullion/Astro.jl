@@ -45,7 +45,7 @@ for my_test in my_tests
         if fatalerrors
             rethrow(e)
         elseif !quiet
-            showerror(STDOUT, e, backtrace())
+            showerror(stdout, e, backtrace())
             println()
         end
     end
