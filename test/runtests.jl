@@ -1,5 +1,3 @@
-@show "running this file"
-
 using Astro, Test
 
 fatalerrors = length(ARGS) > 0 && ARGS[1] == "-f"
@@ -28,7 +26,7 @@ my_tests = String[
     "utils-tests.jl"
 ]
 
-println("Running tests:")
+println("...Running tests:")
 
 passed = String[]
 failed = String[]
@@ -45,18 +43,18 @@ for my_test in my_tests
         if fatalerrors
             rethrow(e)
         elseif !quiet
-            showerror(STDOUT, e, backtrace())
+            showerror(stdout, e, backtrace())
             println()
         end
     end
 end
 
-println("Passed:")
+println("...Passed:")
 for tst in passed
     println("\t\033[1m\033[32mPASSED\033[0m:   $tst")
 end
 
-println("Failed:")
+println("...Failed:")
 for tst in failed
     println("\t\033[1m\033[31mFAILED\033[0m:   $tst")
 end

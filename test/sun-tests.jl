@@ -44,9 +44,8 @@ jd = cal_to_jd(1980,7,27)
 Lsun, radius = longitude_radius_low(cal_to_jd(1980,7,27))
 # ecliptic latitude is 0
 Bsun = 0
-obliquity = obliquity_high(jd)
-
-ra, decl = ecl_to_equ(Lsun, Bsun, obliquity)
+set_obliquity(obliquity_high(jd))
+ra, decl = ecl_to_equ(Lsun, Bsun, currentobliquity)
 
 #println(" For July 27, 1980, the Sun's RA and Dec were")
 #println(" RA: $(d_to_dms(rad2deg(ra))), Decl: $(d_to_dms(rad2deg(decl)))")
@@ -77,7 +76,7 @@ map(rad2deg, (ra,decl))
 
 =#
 
-#print("\n\n25.b Sun position, high precision, page 169")
+print("\n\n25.b Sun position, high precision, page 169")
 L, B, R = sun_dimension3(2448908.5)
 
 # meeus gives L as 19°.907372, B as -0.000179, R as 0.99760775

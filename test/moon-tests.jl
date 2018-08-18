@@ -140,8 +140,8 @@ println("Moon rise and moon set")
 # Duffett-Smith what were the times of moonrise and moonset on Sept 6 1979
 # as observed from longitude 0N and latitude 52N
 # ephemeris says 18h46m and 04h58m
-latitude = deg2rad(52)
-longitude = deg2rad(0)
+set_latitude(deg2rad(52))
+set_longitude(deg2rad(0))
 jd = cal_to_jd(1979,9,6)
 r,s = moon_riseset(jd)
 d1, d2 = map(jd_to_date, (r,s))

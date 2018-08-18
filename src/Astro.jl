@@ -25,5 +25,5 @@ include("vsop87d.jl")
 # set location to London
 set_latitude(deg2rad(52))
 set_longitude(deg2rad(0))
-
+set_obliquity(23.5)
 end

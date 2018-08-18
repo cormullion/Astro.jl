@@ -182,6 +182,8 @@ function obliquity(jd)
     return polynomial(_el0, T)
 end
 
+currentobliquity = obliquity(Dates.datetime2julian(now()))
+
 # Constant terms
 
 _el1 = Array([deg2rad(dms_to_d(23, 26,    21.448)),

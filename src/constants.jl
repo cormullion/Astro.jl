@@ -1,15 +1,15 @@
 export
-    earth_pol_to_equ_radius, 
-    earth_flattening, 
-    earth_equ_radius, 
-    minutes_per_day, 
-    days_per_minute, 
-    seconds_per_day, 
-    days_per_second, 
-    km_per_au, 
-    standard_rst_altitude, 
+    earth_pol_to_equ_radius,
+    earth_flattening,
+    earth_equ_radius,
+    minutes_per_day,
+    days_per_minute,
+    seconds_per_day,
+    days_per_second,
+    km_per_au,
+    standard_rst_altitude,
     sun_rst_altitude
-    
+
 # Don't change these unless you are moving to a new universe.
 
 # Ratio of Earth's polar to equatorial radius.
@@ -39,3 +39,5 @@ global km_per_au = 149597870
 # For rise-set-transit: altitude deflection caused by refraction
 global standard_rst_altitude = -0.00989078087105 # -0.5667 degrees
 global sun_rst_altitude      = -0.0145438286569       # -0.8333 degrees
+
+global currentobliquity = 23.5

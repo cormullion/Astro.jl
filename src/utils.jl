@@ -14,7 +14,9 @@ export
     quadratic_interpolation,
     quadratic_roots,
     set_latitude,
-    set_longitude
+    set_longitude,
+    set_obliquity
+
 
 # Meeus chapter 4, quadratic curve fitting:
 
@@ -370,4 +372,8 @@ end
 
 function set_longitude(long)
      global longitude = long
+end
+
+function set_obliquity(ob)
+     global currentobliquity = ob
 end
