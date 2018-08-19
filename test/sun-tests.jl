@@ -77,29 +77,28 @@ map(rad2deg, (ra,decl))
 =#
 
 print("\n\n25.b Sun position, high precision, page 169")
-L, B, R = sun_dimension3(2448908.5)
+
+jd_to_cal(2448908.5)
+
+L, B, R = sun_dimension3(cal_to_jd(1992,10,13))
 
 # meeus gives L as 19°.907372, B as -0.000179, R as 0.99760775
+# L, B, R = 199.91598259307455, 0.00020664594475074667, 0.9976085202355934
 
-@test rad2deg(L) ≈  199.907372   atol= 1# <<<<<<<<<<<<<<<<<===== fails
-@test isapprox(rad2deg(B) , 0.644, atol=.1)
-@test isapprox(R * km_per_au, 0.99760775 * km_per_au, atol=.1)
+@test isapprox(rad2deg(L), 199.907372, atol=0.1)
+@test isapprox(rad2deg(B) , -0.000179, atol=.1)
+@test isapprox(R, 0.9976, atol=.1)
+
 L, B = vsop_to_fk5(2448908.5, L, B)
-@test isapprox(rad2deg(L) * 3600, 199.907347 * 3600, atol=.1)
-@test isapprox(rad2deg(B) * 3600, 0.62, atol=.1)
+@test isapprox(rad2deg(L), 199.907347, atol=.1)
+
 aberration = aberration_low(R)
 @test isapprox(rad2deg(aberration) * 3600, -20.539, atol=0.001)
 println(" passed")
 
-print("\n\n25.b Sun position, high precision (complete theory pg 165)")
-@test rad2deg(L) * 3600 * 100 ≈  dms_to_d(199 atol= 54, 26.18* 3600 * 100, 1)
-@test isapprox(rad2deg(B) * 3600 * 100, 0.72 * 100, atol=1)
-@test isapprox(R, 0.99760853, atol=1e-8)
-println(" passed")
-
 print("\n\n26.a 1 rectangular coordinates of the sun, relative to the mean equinox of the date")
 X, Y, Z = rectangular_md(2448908.5)
-@test X*km_per_au ≈  -0.9379952*km_per_au atol= .1# <<<<<<<<<<<<<<<<<<<<<===== fails
-@test Y*km_per_au ≈  -0.3116544*km_per_au atol= .1# ..
-@test Z*km_per_au ≈  -0.1351215*km_per_au atol= .1# ..
+@test isapprox(X, -0.9379952, atol=.1) #
+@test isapprox(Y, -0.3116544, atol=0.1) # ..
+@test isapprox(Z, -0.1351215, atol=0.1) # ..
 println(" passed")

@@ -34,12 +34,12 @@ failed = String[]
 for my_test in my_tests
     try
         include(my_test)
-        println("\t\033[1m\033[32mPASSED\033[0m: $(my_test)")
+        println("$(my_test)")
         push!(passed, my_test)
     catch e
         global anyerrors = true
         push!(failed, my_test)
-        println("\t\033[1m\033[31mFAILED\033[0m: $(my_test)")
+        println("$(my_test)")
         if fatalerrors
             rethrow(e)
         elseif !quiet
@@ -49,12 +49,12 @@ for my_test in my_tests
     end
 end
 
-println("...Passed:")
 for tst in passed
-    println("\t\033[1m\033[32mPASSED\033[0m:   $tst")
+    printstyled("PASSED:\t", color=:green)
+    println("$tst")
 end
 
-println("...Failed:")
 for tst in failed
-    println("\t\033[1m\033[31mFAILED\033[0m:   $tst")
+    printstyled("FAILED:\t", color=:red)
+    println("$tst")
 end

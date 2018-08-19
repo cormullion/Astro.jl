@@ -147,7 +147,7 @@ function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
     # Note that we move both the Earth and the other planet during
     # the iteration.
     trial = 1
-    for bailout = 1:20
+    for bailout = 1:30
     	# heliocentric geometric ecliptic coordinates of the Earth
         (L0, B0, R0) = vsop87d_dimension(t, "Earth")
 
@@ -173,7 +173,7 @@ function geocentric_planet(jd, planet, deltaPsi, epsilon, delta)
         # light time in days
         tau = 0.0057755183 * dist
 
-        if abs(diff_angle(l, l0)) < (pi * 2) * delta
+        if abs(diff_angle(l, l0)) < 2pi * delta
             break
         end
 
