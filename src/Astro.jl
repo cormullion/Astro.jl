@@ -2,7 +2,8 @@ module Astro
 
 using Dates
 
-global dname = dirname(Base.source_path()) # used in vsop87d.jl to load data
+global dname = dirname(pathof(Astro))
+# used in vsop87d.jl to load data
 
 include("constants.jl")
 include("global.jl")

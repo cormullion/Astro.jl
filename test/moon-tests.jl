@@ -1,19 +1,20 @@
 using Test, Astro
 
 print("47.a Moon position")
+
 # Calculate the geocentric longitude, latitude, distance, and equatorial horizontal parallax
 # of the moon for 1992 April 12 at 0h TD
 
-L, B, R = moon_dimension3(cal_to_jd(1992,4,12))
+L, B, R = moon_dimension3(cal_to_jd(1992, 4, 12))
 
 # longitude should be 133d.152655
 # beta -3d.229126
 # delta 368409.7 km
 # pi 0.991990
 
-@test rad2deg(L) ≈  133.162 atol= .1# 0.1 degree OK?
-@test rad2deg(B) ≈  -3.229126 atol= 1e-6# degrees
-@test R ≈  368409.7 atol= 0.1# km
+@test isapprox(rad2deg(L), 133.162, atol = .1) # 0.1 degree OK?
+@test isapprox(rad2deg(B), -3.229126, atol = 1e-6) # degrees
+@test isapprox(R, 368409.7, atol = 0.1) # km
 
 # the other routine:
 
@@ -21,10 +22,10 @@ L = moon_dimension(2448724.5, "L")
 @test isapprox(rad2deg(L), 133.162655, atol=0.1)
 
 B = moon_dimension(2448724.5, "B")
-@test rad2deg(B) ≈  -3.229126 atol= 0.1# degrees
+@test isapprox(rad2deg(B), -3.229126, atol= 0.1) # degrees
 
 R = moon_dimension(2448724.5, "R")
-@test R ≈  368409.7 atol= 0.1# km
+@test isapprox(R, 368409.7, atol= 0.1) # km
 
 println(" passed")
 
@@ -40,8 +41,8 @@ println(" passed")
 
 print("48.a (1) Illuminated fraction of moon's disk (high precision)")
 k, khi = moon_illuminated_fraction_high(cal_to_jd(1992, 4, 12))
-@test k ≈  0.678 atol= 0.001# percent
-@test rad2deg(khi) ≈  285 atol= 0.1# degrees
+@test isapprox(k, 0.678, atol= 0.001) # percent
+@test isapprox(rad2deg(khi), 285, atol= 0.1) # degrees
 println(" passed")
 
 print("48.a (2) Illuminated fraction of moon's disk (low precision)")
@@ -51,18 +52,18 @@ println(" passed")
 
 print("49.a New moon")
 jd = moon_nearest_phase(cal_to_jd(1977, 2, 13), 0)
-yr, mo, day = jd_to_cal(jd)
+yr, mo, dy = jd_to_cal(jd)
 @test isapprox(yr, 1977, atol=1)
 @test isapprox(mo, 2, atol=0)
-@test isapprox(day, 18.15, atol=0.01)
+@test isapprox(dy, 18.15, atol=0.01)
 println(" passed")
 
 print("49.b Moon last quarter")
 jd = moon_nearest_phase(cal_to_jd(2044, 1, 19), 3)
-yr, mo, day = jd_to_cal(jd)
+yr, mo, dy = jd_to_cal(jd)
 @test isapprox(yr, 2044, atol=0.1)
 @test isapprox(mo, 1, atol=0.1)
-@test isapprox(day, 21.99, atol=0.01)
+@test isapprox(dy, 21.99, atol=0.01)
 println(" passed")
 
 print("50 Moon apogee")
@@ -127,7 +128,7 @@ ra_rad, dec_rad = ecl_to_equ(geoecl_long, geoecl_lat, obliquity(jd))
 ra_deg = ra_rad / (2 * pi) |> fday_to_hms
 @test(ra_deg[1] == 22)
 @test(ra_deg[2] == 33)
-@test ra_deg[3] ≈  28 atol= 30# within 30 seconds OK?
+@test isapprox(ra_deg[3], 28, atol = 30) # within 30 seconds OK?
 #
 # what about testing dec_rad?
 #
@@ -146,12 +147,12 @@ jd = cal_to_jd(1979,9,6)
 r,s = moon_riseset(jd)
 d1, d2 = map(jd_to_date, (r,s))
 hr, mn, sc = fday_to_hms(r - jd)
-@test(hr == 18)
-@test mn ≈  46 atol= 30# TODO moon_riseset test within 30 minutes???
+@test (hr == 18)
+@test isapprox(mn, 46, atol = 30) # TODO moon_riseset test within 30 minutes???
 
 hr, mn, sc = fday_to_hms(s - jd)
-@test hr ≈ 4 atol= 1#
-@test mn ≈  58 atol= 300 # within 240 minutes (4 hours) ???
+@test isapprox(hr, 4, atol = 1) #
+@test isapprox(mn, 58, atol = 300) # within 240 minutes (4 hours) ???
 
 println()
 

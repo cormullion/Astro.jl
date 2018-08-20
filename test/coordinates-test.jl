@@ -33,15 +33,15 @@ print("13.a2 Ecliptical to equatorial coordinates")
 # ecl longitude 139-41-10 and ecl latitude 4-52-31"
 # RA should be 09h34m53.6s
 # decl should be 10d32m14,2s
-ra, decl = ecl_to_equ(deg2rad(dms_to_d(139, 41, 10)), deg2rad(dms_to_d(4,52,31)), deg2rad(23.4392911))
-ra_deg, decl_deg = map(rad2deg,(ra, decl))
+ra, decl = ecl_to_equ(deg2rad(dms_to_d(139, 41, 10)), deg2rad(dms_to_d(4, 52, 31)), deg2rad(23.4392911))
+ra_deg, decl_deg = map(rad2deg, (ra, decl))
 @test isapprox(ra_deg/15, 9.581551, atol=0.01)
 @test isapprox(decl_deg, dms_to_d(19,32,14.2), atol=0.01)
 println(" passed")
 
 print("13 supplemental Ecliptical to equatorial coordinates (RA, decl)")
-ra, decl = ecl_to_equ(deg2rad(dms_to_d(139,41,10)), deg2rad(dms_to_d(4, 52, 31)), deg2rad(23.4392911))
-ra_deg, decl_deg = map(rad2deg,(ra, decl))
+ra, decl = ecl_to_equ(deg2rad(dms_to_d(139, 41, 10)), deg2rad(dms_to_d(4, 52, 31)), deg2rad(23.4392911))
+ra_deg, decl_deg = map(rad2deg, (ra, decl))
 @test isapprox(ra_deg/15, 9.581534330766397, atol=0.01)
 @test isapprox(decl_deg, 19.536745492338458, atol=0.01)
 println(" passed")

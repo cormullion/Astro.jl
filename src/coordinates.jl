@@ -6,22 +6,20 @@ export
     geocentric_to_topocentric
 
 """
-
-ecl_to_equ(long, lat, obliquity)
+    ecl_to_equ(long, lat, obliquity)
 
 Convert ecliptic to equatorial coordinates.
 
-    [Meeus-1998: equations 13.3, 13.4]
+[Meeus-1998: equations 13.3, 13.4]
 
-    Parameters:
-        long : ecliptic longitude in radians
-        lat : ecliptic latitude in radians
-        obliquity : obliquity of the ecliptic in radians
+Parameters:
+    long : ecliptic longitude in radians
+    lat : ecliptic latitude in radians
+    obliquity : obliquity of the ecliptic in radians
 
-    Returns:
-        Right ascension in radians (2 pi is 24 hours)
-        Declination in radians
-
+Returns:
+    Right ascension in radians (2 pi is 24 hours)
+    Declination in radians
 """
 function ecl_to_equ(long, lat, obliquity)
     cose = cos(obliquity)
@@ -37,24 +35,23 @@ function ecl_to_equ(long, lat, obliquity)
 end
 
 """
+    equ_to_horiz(H, decl)
 
-equ_to_horiz(H, decl)
 Convert equatorial to horizontal coordinates.
 
-    [Meeus-1998: equations 13.5, 13.6]
+[Meeus-1998: equations 13.5, 13.6]
 
-    Note that azimuth is measured westward starting from the south.
+Note that azimuth is measured westward starting from the south.
 
-    This is not a good formula for using near the poles.
+This is not a good formula for using near the poles.
 
-    Parameters:
-        H : hour angle in radians
-        decl : declination in radians
+Parameters:
+    H : hour angle in radians
+    decl : declination in radians
 
-    Returns:
-        azimuth in radians
-        altitude in radians
-
+Returns:
+    azimuth in radians
+    altitude in radians
 """
 function equ_to_horiz(H, decl)
     global latitude
@@ -74,21 +71,20 @@ function equ_to_horiz(H, decl)
 end
 
 """
+    equ_to_ecl(ra, declin, obliquity)
 
-equ_to_ecl(ra, declin, obliquity)
 Convert equatorial to ecliptic coordinates.
 
-    [Meeus-1998: equations 13.1, 13.2]
+[Meeus-1998: equations 13.1, 13.2]
 
-    Parameters:
-        ra : right accension radians
-        declin : declination in radians
-        obliquity : obliquity of the ecliptic in radians
+Parameters:
+    ra : right accension radians
+    declin : declination in radians
+    obliquity : obliquity of the ecliptic in radians
 
-    Returns:
-        ecliptic longitude in radians
-        ecliptic latitude in radians
-
+Returns:
+    ecliptic longitude in radians
+    ecliptic latitude in radians
 """
 function equ_to_ecl(ra, declin, obliquity)
     cose = cos(obliquity)
@@ -100,25 +96,24 @@ function equ_to_ecl(ra, declin, obliquity)
 end
 
 """
+    geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
 
-geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
 Convert geocentric to topocentric coordinates.
 
-    [Meeus-1998: equations 40.2, 40.3]
+[Meeus-1998: equations 40.2, 40.3]
 
-    Parameters:
-        phi: geocentric radius in radians
-        H : observer's altitude (above sea level) in meters
-        L ; observer longitude (in radians)
-        ra : body right ascension
-        decl : body declination in radians
-        d : body distance (in AU)
-        jd : Julian date
+Parameters:
+    phi: geocentric radius in radians
+    H : observer's altitude (above sea level) in meters
+    L ; observer longitude (in radians)
+    ra : body right ascension
+    decl : body declination in radians
+    d : body distance (in AU)
+    jd : Julian date
 
-    Returns:
-        topocentric right ascension in radians
-        topocentric declination in radians
-
+Returns:
+    topocentric right ascension in radians
+    topocentric declination in radians
 """
 function geocentric_to_topocentric(phi, H, L, ra, decl, d, jd)
      sinparallax = sin(deg2rad(8.794/3600))/d

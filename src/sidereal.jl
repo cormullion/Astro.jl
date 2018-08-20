@@ -1,27 +1,28 @@
-#=
- Sidereal time at Greenwich
-
-    Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
-
-=#
-
 export
     apparent_sidereal_time_greenwich,
     mean_sidereal_time_greenwich
 
 """
-mean_sidereal_time_greenwich(jd)
+    mean_sidereal_time_greenwich(jd)
 
-    Return the mean sidereal time at Greenwich.
+Return the mean sidereal time at Greenwich.
 
-        The Julian Day number must represent Universal Time.
+The Julian Day number must represent Universal Time.
 
-        Parameters:
-            jd : Julian Day number
+Parameters:
+    jd : Julian Day number
 
-        Return:
-            sidereal time in radians (2pi radians = 24 hrs)
+Return:
+    sidereal time in radians (2pi radians = 24 hrs)
 
+
+```
+mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |>
+    radianstime_to_fday |>
+    fday_to_hms
+
+# -> (13, 10, 46.366821793410054)
+```
 """
 function mean_sidereal_time_greenwich(jd)
     T = jd_to_jcent(jd)
@@ -33,19 +34,17 @@ function mean_sidereal_time_greenwich(jd)
 end
 
 """
+    apparent_sidereal_time_greenwich(jd)
 
-apparent_sidereal_time_greenwich(jd)
+Return the apparent sidereal time at Greenwich for `jd` Julian day.
 
-    Return the apparent sidereal time at Greenwich.
+The Julian Day number must represent Universal Time.
 
-    The Julian Day number must represent Universal Time.
+Parameters:
+    jd : Julian Day number
 
-    Parameters:
-        jd : Julian Day number
-
-    Return:
-        sidereal time in radians (2pi radians = 24 hrs)
-
+Return:
+    sidereal time in radians (2pi radians = 24 hrs)
 """
 function apparent_sidereal_time_greenwich(jd)
     # Nutation in right ascension should be computed from the DT julian date
@@ -54,17 +53,20 @@ function apparent_sidereal_time_greenwich(jd)
 end
 
 
-# mean_sidereal_time_greenwich(Dates.datetime2julian(DateTime(1987, 4, 10, 0, 0, 0))) |> radianstime_to_fday |> fday_to_hms
 
-# H, the local hour angle measure westwards from the South, can be calculated from
-# H = θ - α
-# or
-# H = θ0 - L - α
-# where θ is the local sidereal time, θ0 the sidereal time at Greenwich, and L the observer's longitude (positive west from Greenwich).
+"""
+    local_hour_angle(ra, gst)
 
-# α is the right ascension in radians
-#
+Find the local hour angle corresponding to `ra` and `gst`.
 
+H, the local hour angle measured westwards from the South, can be calculated from
+`H = θ - α`, or `H = θ0 - L - α`, where:
+
+- θ is the local sidereal time
+- θ0 the sidereal time at Greenwich
+- L the observer's longitude (positive west from Greenwich)
+- α is the right ascension in radians
+"""
 function local_hour_angle(ra, gst)
     return gst - longitude - ra
 end

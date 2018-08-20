@@ -7,13 +7,7 @@ export
     obliquity,
     true_obliquity
 
-"""
- Functions to calculate nutation and obliquity values.
-
-    [Meeus-1998: table 22.A]
-
-    #    D, M, M1, F, omega, psiK, psiT, epsK, epsT
-"""
+#    D, M, M1, F, omega, psiK, psiT, epsK, epsT
 nutation_table = Array[
     [ 0,  0,  0,  0,  1, -171996, -1742, 92025,  89],
     [-2,  0,  0,  2,  2,  -13187,   -16,  5736, -31],
@@ -89,6 +83,13 @@ _ko  = [deg2rad(125.04452), deg2rad( -1934.136261), deg2rad( 0.0020708), deg2rad
 
 # Return some values needed for both nut_in_lon() and nut_in_obl()
 
+"""
+    nutation_constants(T)
+
+Functions to calculate nutation and obliquity values.
+
+[Meeus-1998: table 22.A]
+"""
 function nutation_constants(T)
     D     = mod2pi(polynomial(_kD,  T))
     M     = mod2pi(polynomial(_kM,  T))
@@ -99,21 +100,20 @@ function nutation_constants(T)
 end
 
 """
+    nut_in_lon(jd)
+
 Return the nutation in longitude.
 
-    High precision. [Meeus-1998: pg 144]
+High precision. [Meeus-1998: pg 144]
 
-    Parameters:
-        jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-    Returns:
-        nutation in longitude, in radians
-
+Returns:
+    nutation in longitude, in radians
 """
 function nut_in_lon(jd)
-
     # TODO nut_in_lon() factor the /1e5 and /1e6 adjustments into the table.
-
     T = jd_to_jcent(jd)
     D, M, M1, F, omega = nutation_constants(T)
     deltaPsi = 0.0
@@ -126,16 +126,17 @@ function nut_in_lon(jd)
 end
 
 """
+    nut_in_obl(jd)
+
 Return the nutation in obliquity.
 
-    High precision. [Meeus-1998: pg 144]
+High precision. [Meeus-1998: pg 144]
 
-    Parameters:
-        jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-    Returns:
-        nutation in obliquity, in radians
-
+Returns:
+    nutation in obliquity, in radians
 """
 function nut_in_obl(jd)
     #
@@ -163,24 +164,25 @@ _el0 = Array([deg2rad(dms_to_d(23, 26,  21.448   )),
              ])
 
 """
+    obliquity(jd)
 
- Return the mean obliquity of the ecliptic.
+Return the mean obliquity of the ecliptic.
 
-    Low precision, but good enough for most uses. [Meeus-1998: equation 22.2].
+Low precision, but good enough for most uses. [Meeus-1998: equation 22.2].
 
-    Accuracy is 1" over 2000 years and 10" over 4000 years.
+Accuracy is 1" over 2000 years and 10" over 4000 years.
 
-    Parameters:
-        jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-    Returns:
-        obliquity, in radians
-
+Returns:
+    obliquity, in radians
 """
 function obliquity(jd)
     T = jd_to_jcent(jd)
     return polynomial(_el0, T)
 end
+
 
 currentobliquity = obliquity(Dates.datetime2julian(now()))
 
@@ -199,19 +201,20 @@ _el1 = Array([deg2rad(dms_to_d(23, 26,    21.448)),
               deg2rad(dms_to_d( 0,  0,     2.45))])
 
 """
+    obliquity_high(jd)
+
 Return the mean obliquity of the ecliptic.
 
-    High precision [Meeus-1998: equation 22.3].
+High precision [Meeus-1998: equation 22.3].
 
-    Accuracy is 0.01" between 1000 and 3000, and "a few arc-seconds
-    after 10,000 years".
+Accuracy is 0.01" between 1000 and 3000, and "a few arc-seconds
+after 10,000 years".
 
-    Parameters:
-        jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-    Returns:
-        obliquity, in radians
-
+Returns:
+    obliquity, in radians
 """
 function obliquity_high(jd)
     U = jd_to_jcent(jd) / 100
@@ -223,17 +226,17 @@ function true_obliquity(jd)
 end
 
 """
+    nut_in_ra(jd)
 
 Return the nutation in right ascension (also called equation of the equinoxes.)
 
-    Meeus-1998: page 88.
+Meeus-1998: page 88.
 
-    Parameters:
-        jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-    Returns:
-        nutation, in radians
-
+Returns:
+    nutation, in radians
 """
 function nut_in_ra(jd)
     global days_per_second

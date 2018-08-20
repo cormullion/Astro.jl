@@ -174,9 +174,7 @@ end
 # Calculate values required by several other functions
 
 function moon_constants(T)
-
     # Constant terms.
-
     _kL1 = [deg2rad(218.3164477), deg2rad(481267.88123421), deg2rad(-0.0015786), deg2rad( 1.0/  538841), deg2rad(-1.0/ 65194000)]
     _kD  = [deg2rad(297.8501921), deg2rad(445267.1114034),  deg2rad(-0.0018819), deg2rad( 1.0/  545868), deg2rad(-1.0/113065000)]
     _kM  = [deg2rad(357.5291092), deg2rad( 35999.0502909),  deg2rad(-0.0001536), deg2rad( 1.0/24490000)]
@@ -205,6 +203,8 @@ end
 # ELP2000 lunar position calculations
 
 """
+    moon_dimension3(jd)
+
 Return geocentric ecliptic longitude, latitude and radius.
 
         When we need all three dimensions it is more efficient to combine the
@@ -219,7 +219,7 @@ Return geocentric ecliptic longitude, latitude and radius.
             radius in km, Earth's center to Moon's center
 
 """
-function moon_dimension3(jd::Float64)
+function moon_dimension3(jd)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
 
@@ -273,12 +273,14 @@ function moon_dimension3(jd::Float64)
 end
 
 """
+    moon_longitude(jd)
+
 Return the geocentric ecliptic longitude in radians.
 
 A subset of the logic in moon_dimension3()
 
 """
-function moon_longitude(jd::Float64)
+function moon_longitude(jd)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
     lsum = 0.0
@@ -302,11 +304,13 @@ function moon_longitude(jd::Float64)
 end
 
 """
+    moon_latitude(jd)
+
 Return the geocentric ecliptic latitude in radians.
  A subset of the logic in moon_dimension3()
 
 """
-function moon_latitude(jd::Float64)
+function moon_latitude(jd)
     T = jd_to_jcent(jd)
     L1, D, M, M1, F, A1, A2, A3, E, E2 = moon_constants(T)
 
@@ -334,12 +338,13 @@ function moon_latitude(jd::Float64)
 end
 
 """
- Return the geocentric radius in km.
+    moon_radius(jd)
 
- A subset of the logic in moon_dimension3()
+Return the geocentric radius in km.
 
+A subset of the logic in moon_dimension3()
 """
-function moon_radius(jd::Float64)
+function moon_radius(jd)
     T = jd_to_jcent(jd)
     (L1, D, M, M1, F, A1, A2, A3, E, E2) = moon_constants(T)
 
@@ -359,19 +364,20 @@ function moon_radius(jd::Float64)
 end
 
 """
+    moon_dimension(jd, dim)
+
 Return one of geocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
-            dim : "L" (longitude") or "B" (latitude) or "R" (radius)
+Parameters:
+    jd : Julian Day in dynamical time
+    dim : "L" (longitude") or "B" (latitude) or "R" (radius)
 
-        Returns:
-            longitude in radians or
-            latitude in radians or
-            radius in km, Earth's center to Moon's center
-
+Returns:
+    longitude in radians or
+    latitude in radians or
+    radius in km, Earth's center to Moon's center
 """
-function moon_dimension(jd::Float64, dim)
+function moon_dimension(jd, dim)
     if dim == "L"
         return moon_longitude(jd)
     end
@@ -385,27 +391,27 @@ function moon_dimension(jd::Float64, dim)
 end
 
 """
+    moon_age_location(jd)
 
-    Simple moon phase calculator adapted from the basic program found at
-    http://www.skyandtelescope.com/resources/software/3304911.html.
-    This function helps anyone who needs to know the Moon's
-    phase (age), distance, and position along the ecliptic on
-    any date within several thousand years in the past or future.
-    To illustrate its application, Bradley Schaefer applied it
-    to a number of famous events influenced by the Moon in
-    World War II.  His article appeared in Sky & Telescope for
-    April 1994, page 86.
+Simple moon phase calculator adapted from the basic program found at
+http://www.skyandtelescope.com/resources/software/3304911.html.
+This function helps anyone who needs to know the Moon's
+phase (age), distance, and position along the ecliptic on
+any date within several thousand years in the past or future.
+To illustrate its application, Bradley Schaefer applied it
+to a number of famous events influenced by the Moon in
+World War II.  His article appeared in Sky & Telescope for
+April 1994, page 86.
 
-           Parameters:
-                jd : Julian Day
-           Returns :
-                moon's age from new in days
-                distance from  anomalistic phase
-                ecliptic latitude
-                ecliptic longitude
-
+Parameters:
+    jd : Julian Day
+Returns :
+    moon's age from new in days
+    distance from  anomalistic phase
+    ecliptic latitude
+    ecliptic longitude
 """
-function moon_age_location(jd::Float64)
+function moon_age_location(jd)
     global earth_equ_radius
     v  = (jd - 2451550.1) / 29.530588853
     ip = v- floor(Integer, v)
@@ -433,19 +439,20 @@ function moon_age_location(jd::Float64)
 end
 
 """
+    moon_nearest_phase(jd, phase=0)
 
-    Find the Julian Date of the nearest moon phase (new, 1st quarter, full, last quarter) to the given Julian date.
-           Parameters:
-                jd : the required Julian Day in dynamical time
-                phase: integer between 0 and 3: 0-> new moon, 1-> first quarter, 2-> full moon, 3-> second quarter
-                  defaulting to 0, new moon
-           Returns :
-                the Julian Date for the type of moon phase asked
+Find the Julian Date of the nearest moon phase (new, 1st quarter, full, last quarter) to the given Julian date.
 
-    [Meeus - chapter 49]
+Parameters:
+    jd : the required Julian Day in dynamical time
+    phase: integer between 0 and 3: 0-> new moon, 1-> first quarter, 2-> full moon, 3-> second quarter
+      defaulting to 0, new moon
+Returns :
+    the Julian Date for the type of moon phase asked
 
+[Meeus - chapter 49]
 """
-function moon_nearest_phase(jd::Float64, phase=0)
+function moon_nearest_phase(jd, phase=0)
      _kMean =   [2451550.09766,  29.530588861*1236.85,  0.00015437, -0.000000150, 0.00000000073]
      _kM    =   [      2.55340,  29.105356700*1236.85, -0.0000014,  -0.00000011]
      _kM1   =   [    201.56430, 385.816935280*1236.85,  0.0107582,   0.00001238, -0.000000058]
@@ -586,19 +593,19 @@ function moon_nearest_phase(jd::Float64, phase=0)
 end
 
 """
+    moon_illuminated_fraction_high(jd)
 
-    Compute the moon illuminated fraction and position's angle of the moon's bright limb
+Compute the moon illuminated fraction and position's angle of the moon's bright limb
 
-    Parameters:
-                jd : Julian Day in dynamical time
+Parameters:
+            jd : Julian Day in dynamical time
 
-    Returns :
-                f, a (fraction, angle)
+Returns :
+            f, a (fraction, angle)
 
-    [Meeus - chapter 48 or 49 depending on edition]
-
+[Meeus - chapter 48 or 49 depending on edition]
 """
-function moon_illuminated_fraction_high(jd::Float64)
+function moon_illuminated_fraction_high(jd)
     global km_per_au
     (lambda, bbeta, delta) = moon_dimension3(jd)  # Moon's geocentric longitude, latitude and radius
     (lambda0, bbeta0, R)   = sun_dimension3(jd)   # Sun's geocentric longitude, latitude and radius
@@ -616,11 +623,11 @@ function moon_illuminated_fraction_high(jd::Float64)
 end
 
 """
+    moon_illuminated_fraction_low(jd)
 
-    Same as above - lower precision. Simpler algorithm. Does not return the angle of the bright limb
-
+Same as above - lower precision. Simpler algorithm. Does not return the angle of the bright limb
 """
-function moon_illuminated_fraction_low(jd::Float64)
+function moon_illuminated_fraction_low(jd)
     T = jd_to_jcent(jd)
     (L1, D, M, M1) = moon_constants(T)
 
@@ -635,14 +642,15 @@ function moon_illuminated_fraction_low(jd::Float64)
     return (round(k, digits=2))
 end
 """
+    moon_mean_ascending_node_longitude(jd)
 
-    Returns the longitude of the mean ascending node and of the mean perigee of the moon
-    Parameters:
-        jd: Julian day (dynamical time)
+Returns the longitude of the mean ascending node and of the mean perigee of the moon
 
-    Returns
-        mean ascending node or mean perigee longitude in radians
+Parameters:
+    jd: Julian day (dynamical time)
 
+Returns
+    mean ascending node or mean perigee longitude in radians
 """
 function moon_mean_ascending_node_longitude(jd)
     _O = [125.0445479, -1934.1362891, 0.0020754, 1/467441, -1/60616000]
@@ -650,7 +658,11 @@ function moon_mean_ascending_node_longitude(jd)
     return mod2pi(deg2rad(polynomial(_O, T)))
 end
 
-function moon_true_ascending_node_longitude(jd::Float64)
+"""
+    moon_true_ascending_node_longitude(jd)
+
+"""
+function moon_true_ascending_node_longitude(jd)
     m = moon_mean_ascending_node_longitude(jd)
     T = jd_to_jcent(jd)
     (L1, D, M, M1, F) = moon_constants(T)
@@ -663,24 +675,30 @@ function moon_true_ascending_node_longitude(jd::Float64)
           + m)
 end
 
-function moon_mean_perigee_longitude(jd::Float64)
+"""
+    moon_mean_perigee_longitude(jd)
+
+"""
+function moon_mean_perigee_longitude(jd)
     _P = [83.3532465, 4096.0137287, -0.01032, -1/80053, -1/189999000]
     T = jd_to_jcent(jd)
     return mod2pi(deg2rad(polynomial(_P, T)))
 end
 
 """
-    Returns the jd for apogee of perigee, and the corresponding equatorial horizontal parallax
-    Parameters:
-        jd: Julian day (dynamical time)
-        apo_nperi : 1 for an apogee, 0 for a perigee
+    moon_apogee_perigee_time_low(jd, apo_nperi)
 
-    Returns
-        jd for apogee or perigee
-        parallax in seconds
+Returns the jd for apogee of perigee, and the corresponding equatorial horizontal parallax
 
+Parameters:
+    jd: Julian day (dynamical time)
+    apo_nperi : 1 for an apogee, 0 for a perigee
+
+Returns
+    jd for apogee or perigee
+    parallax in seconds
 """
-function moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
+function moon_apogee_perigee_time_low(jd, apo_nperi)
     (yr, mo, d) = jd_to_cal(jd)
     n = cal_to_day_of_year(yr, mo, d)
     if is_leap_year(yr)
@@ -891,22 +909,28 @@ function moon_apogee_perigee_time_low(jd::Float64, apo_nperi)
     return (round(mean_pa, digits=4), round(parallax, digits=3))
 end
 
-function moon_horizontal_parallax(jd::Float64)
+"""
+    moon_horizontal_parallax(jd)
+
+"""
+function moon_horizontal_parallax(jd)
     global earth_equ_radius
     R = moon_dimension(jd, "R")
     return asin(deg2rad(earth_equ_radius/R))
 end
 
 """
-    Passage of the moon through the nodes
-    Parameter
-        - jd: julian date
-        - desc_not_asc: 0 for the ascending node, 1 for the descending node
-    Returns
-        - julian day of the closer passage through the node
+    moon_node(jd, desc_not_asc)
 
+Passage of the moon through the nodes
+
+Parameter
+    - jd: julian date
+    - desc_not_asc: 0 for the ascending node, 1 for the descending node
+Returns
+    - julian day of the closer passage through the node
 """
-function moon_node(jd::Float64, desc_not_asc)
+function moon_node(jd, desc_not_asc)
     (yr, mo, d) = jd_to_cal(jd)
     n = cal_to_day_of_year(yr, mo, d)
     if is_leap_year(yr)
@@ -966,16 +990,18 @@ function moon_node(jd::Float64, desc_not_asc)
 end
 
 """
-    Returns the lunation number
-        Parameters
-           - JD julian date (DT or UTC)
-           - System can be "brown" (from the first 1923 new moon), "meeus" ( from the first 2000 new moon)
-              "islamic" (from the beginning of islamic calendar) or "goldstein" (Goldstein system)
-        Returns
-           - The lunation number
+    lunation(jd, system=false)
 
+Returns the lunation number
+
+Parameters
+   - JD julian date (DT or UTC)
+   - System can be "brown" (from the first 1923 new moon), "meeus" ( from the first 2000 new moon)
+      "islamic" (from the beginning of islamic calendar) or "goldstein" (Goldstein system)
+Returns
+   - The lunation number
 """
-function lunation(jd::Float64, system=false)
+function lunation(jd, system=false)
     if system == false
         system = "brown"
     end
@@ -1015,14 +1041,17 @@ function lunation(jd::Float64, system=false)
 end
 
 """
-    Returns the moon's altitude at time JD
-        Parameters
-           - JD julian date
-        Returns
-           - altitude in radians
+    moon_altitude(jd)
 
+Returns the moon's altitude at time JD
+
+Parameters
+   - JD julian date
+
+Returns
+   - altitude in radians
 """
-function moon_altitude(jd::Float64)
+function moon_altitude(jd)
     global longitude
     (l, b, r)   = moon_dimension3(jd) # geocentric longitude in radians, geocentric latitude in radians, radius in km
     o           = true_obliquity(jd)
@@ -1035,18 +1064,17 @@ function moon_altitude(jd::Float64)
 end
 
 """
+    moon_riseset(jd)
 
-    moon_riseset(jd::Float64)
+Rising and setting time of the moon for julian day jd
 
-    Rising and setting time of the moon for julian day JD
+TODO Doesn't work.
 
-    Doesn't work.
-
-    # TODO moon_riseset() get this function working
-    # TODO moon_riseset() why does this return k
+# TODO moon_riseset() get this function working
+# TODO moon_riseset() why does this return k
 
 """
-function moon_riseset(jd::Float64)
+function moon_riseset(jd)
     (moonrise, moonset, k, nsteps, uroot) = (false, false, 0, 24, false)
     (jd_list, v_list) = ([0, 1, 2], [0.0, 0.0, 0.0])
 
@@ -1066,7 +1094,6 @@ function moon_riseset(jd::Float64)
             slope = a * s1 + b
             j = jd + (i - 1 + s1) / nsteps
 
-
             # Convert Julian Day from dynamical to terrestrial universal time
             ut = dt_to_ut(j)
 
@@ -1083,7 +1110,7 @@ function moon_riseset(jd::Float64)
             end
         end
 
-        if s2 >= 0 && s2 <= 2
+        if (s2 >= 0) && (s2 <= 2)
             slope = a * s2 + b
             j = jd + (i - 1 + s2) / nsteps
             ut = dt_to_ut(j)
@@ -1113,14 +1140,15 @@ function moon_riseset(jd::Float64)
 end
 
 """
+    moon_rst_altitude(r)
+
 Return the standard altitude of the Moon.
 
-    Parameters:
-        r : Distance between the centers of the Earth and Moon, in km.
+Parameters:
+    r : Distance between the centers of the Earth and Moon, in km.
 
-    Returns:
-        Standard altitude in radians.
-
+Returns:
+    Standard altitude in radians.
 """
 function moon_rst_altitude(r)
     global earth_equ_radius, standard_rst_altitude

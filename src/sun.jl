@@ -7,19 +7,19 @@ export
     sun_dimension3
 
 """
+    sun_dimension3(jd)
 
 Geocentric solar position and radius, low precision.
 
 Return geocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+Parameters:
+    jd : Julian Day in dynamical time
 
-        Returns:
-            longitude in radians
-            latitude in radians
-            radius in au
-
+Returns:
+    longitude in radians
+    latitude in radians
+    radius in au
 """
 function sun_dimension3(jd)
     (L, B, R) = vsop87d_dimension(jd, "Earth")
@@ -39,17 +39,19 @@ _ck4 = deg2rad(-0.000101)
 _ck5 = deg2rad( 0.000289)
 
 """
- Return geometric longitude and radius vector.
-   Low precision. The longitude is accurate to 0.01 degree.
-   The latitude should be presumed to be 0.0. [Meeus-1998: equations 25.2 through
-   25.5, pages 165-166
+    longitude_radius_low(jd)
 
-      Parameters:
-          jd : Julian Day in dynamical time
+Return geometric longitude and radius vector.
+Low precision. The longitude is accurate to 0.01 degree.
+The latitude should be presumed to be 0.0. [Meeus-1998: equations 25.2 through
+25.5, pages 165-166
 
-      Returns:
-          longitude in radians
-          radius in au
+Parameters:
+  jd : Julian Day in dynamical time
+
+Returns:
+  longitude in radians
+  radius in au
 """
 function longitude_radius_low(jd)
     T = jd_to_jcent(jd) # julian centuries from J2000.0
@@ -73,15 +75,17 @@ _lk2 = deg2rad(0.00569)
 _lk3 = deg2rad(0.00478)
 
 """
-  Correct the geometric longitude for nutation and aberration.
-     Low precision. [Meeus-1998: pg 164]
+    apparent_longitude_low(jd, L)
 
-     Parameters:
-         jd : Julian Day in dynamical time
-         L : longitude in radians
-     Returns:
-         corrected longitude in radians
+Correct the geometric longitude for nutation and aberration.
+Low precision. [Meeus-1998: pg 164]
 
+Parameters:
+    jd : Julian Day in dynamical time
+    L : longitude in radians
+
+Returns:
+    corrected longitude in radians
 """
 function apparent_longitude_low(jd, L)
     T = jd_to_jcent(jd)
@@ -89,31 +93,31 @@ function apparent_longitude_low(jd, L)
     return mod2pi(L - _lk2 - _lk3 * sin(omega))
 end
 
-
 # Constant terms
 
 _lk4 = deg2rad(dms_to_d(0, 0, 20.4898))
 
 """
- Correct for aberration; low precision, but good enough for most uses.
+    aberration_low(R)
 
-    [Meeus-1998: pg 164]
+Correct for aberration; low precision, but good enough for most uses.
 
-    Parameters:
-        R : radius in au
+[Meeus-1998: pg 164]
 
-    Returns:
-        correction in radians
+Parameters:
+    R : radius in au
 
+Returns:
+    correction in radians
 """
 function aberration_low(R)
     return -_lk4 / R
 end
 
 """
+    rectangular_md(jd)
 
-    Returns the rectangular coordinates of the sun, relative to the mean equinox of the day
-
+Returns the rectangular coordinates of the sun, relative to the mean equinox of the day
 """
 function rectangular_md(jd)
     L, B, R = sun_dimension3(jd)
@@ -126,14 +130,15 @@ function rectangular_md(jd)
 end
 
 """
+    equation_time(jd)
 
-    Returns the equation of time at JD
-    parameters:
-    	jd: julian day in dynamic time
+Returns the equation of time at JD
 
-    Returns:
-    	Equation of time in minutes, can be positive or negative
+parameters:
+    jd: julian day in dynamic time
 
+Returns:
+    Equation of time in minutes, can be positive or negative
 """
 function equation_time(jd)
     tau = jd_to_jcent(jd)/10
@@ -146,7 +151,7 @@ function equation_time(jd)
     asc,decl   = ecl_to_equ(L, B, epsilon)
     eqt = L0 - deg2rad(0.0057183) - asc + deltaPsi * cos(epsilon)
     if eqt > pi/2
-        eqt = -((2 * pi) - eqt)
+        eqt = -(2pi - eqt)
     end
-    return eqt/(2 * pi) * 1440
+    return eqt/2pi * 1440
 end

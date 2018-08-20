@@ -3,15 +3,8 @@ export
     dt_to_ut,
     tdt_to_bdt
 
-"""
-Functions which calculate the deltaT correction to convert between
-dynamical and universal time.
-
-Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998
-
 # deltat_table is a list of tuples (jd, seconds), giving deltaT values
 # for the beginnings of years in a historical range. [Meeus-1998: table 10.A]
-"""
 deltat_table = Array[
     [cal_to_jd(1620, 1, 1), 121.0],
     [cal_to_jd(1622, 1, 1), 112.0],
@@ -256,20 +249,24 @@ deltat_table_start = 1620
 deltat_table_end = 2012
 
 """
-deltaT_seconds(jd)
+    deltaT_seconds(jd)
 
 Return deltaT as seconds of time.
 
-    For a historical range from 1620 to a recent year, we interpolate from a
-    table of observed values. Outside that range we use formulae.
+Functions which calculate the deltaT correction to convert between
+dynamical and universal time.
 
-    Parameters:
-        jd : Julian Day number
-    Returns:
-        deltaT in seconds
+Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998
 
+For a historical range from 1620 to a recent year, we interpolate from a
+table of observed values. Outside that range we use formulae.
+
+Parameters:
+    jd : Julian Day number
+Returns:
+    deltaT in seconds
 """
-function deltaT_seconds(jd::Float64)
+function deltaT_seconds(jd)
     yr, mo, day = jd_to_cal(jd)
     jd1, jd0, secs1, secs0 = (0,0,0,0)
     #
@@ -318,34 +315,31 @@ function deltaT_seconds(jd::Float64)
 end
 
 """
-
-dt_to_ut(jd)
+    dt_to_ut(jd)
 
 Convert Julian Day from dynamical to terrestrial universal time.
 
-    Parameters:
-        jd : Julian Day number (dynamical time)
-    Returns:
-        Julian Day number (universal time)
-
+Parameters:
+    jd : Julian Day number (dynamical time)
+Returns:
+    Julian Day number (universal time)
 """
-function dt_to_ut(jd::Float64)
+function dt_to_ut(jd)
     global seconds_per_day
     return jd - deltaT_seconds(jd) / seconds_per_day
 end
 
 """
-
-tdt_to_bdt(tt, jd)
+    tdt_to_bdt(tt, jd)
 
 Converts from terrestrial dynamic time to barycentric dynamic time
 
-    Parameters:
-     tt : terrestrial dynamic time
-     jd : Julian Day number (terrestrial dynamic time)
-    Returns:
-              barycentric dynamic time
+Parameters:
+    tt : terrestrial dynamic time
+    jd : Julian Day number (terrestrial dynamic time)
 
+Returns:
+    barycentric dynamic time
 """
 function tdt_to_bdt(tt, jd)
     g = 357.33 + 0.9856003*(jd-2451545)

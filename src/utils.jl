@@ -17,6 +17,17 @@ export
     set_longitude,
     set_obliquity
 
+function set_latitude(lat)
+     global latitude = lat
+end
+
+function set_longitude(long)
+     global longitude = long
+end
+
+function set_obliquity(ob)
+     global currentobliquity = ob
+end
 
 # Meeus chapter 4, quadratic curve fitting:
 
@@ -55,30 +66,31 @@ function quadratic_roots(a, b, c)
 end
 
 """
- Convert an angle in decimal degrees to degree components.
+    d_to_dms(x)
 
-    Return a tuple (degrees, minutes, seconds). Degrees and minutes
-    will be integers, seconds may be floating.
+Convert an angle in decimal degrees to degree components.
 
-    if the argument is negative:
-        The return value of degrees will be negative.
-        If degrees is 0, minutes will be negative.
-        If minutes is 0, seconds will be negative.
+Return a tuple (degrees, minutes, seconds). Degrees and minutes
+will be integers, seconds may be floating.
 
-    Parameters:
-        x : degrees
+If the argument is negative:
+    The return value of degrees will be negative.
+    If degrees is 0, minutes will be negative.
+    If minutes is 0, seconds will be negative.
 
-    Returns:
-        degrees
-        minutes
-        seconds
+Parameters:
+    x : degrees
 
+Returns:
+    degrees
+    minutes
+    seconds
 """
 function d_to_dms(x)
     if x < 0
-    negative = true
+        negative = true
     else
-    negative = false
+        negative = false
     end
     x = abs(x)
     deg =  floor(Integer, x)
@@ -87,35 +99,35 @@ function d_to_dms(x)
     x = x - mn / 60.0
     second = x * 3600
     if negative
-    if deg > 0
-        deg = -deg
-    elseif mn > 0
-        mn = -mn
-    else
-        second = -second
-    end
+        if deg > 0
+            deg = -deg
+        elseif mn > 0
+            mn = -mn
+        else
+            second = -second
+        end
     end
     return (deg, mn, second)
 end
 
 """
+    diff_angle(a, b)
 
 Return angle b - a, accounting for circular values.
 
-    Parameters a and b should be in the range 0..pi*2. The
-    result will be in the range -pi..pi.
+Parameters a and b should be in the range 0..pi*2. The
+result will be in the range -pi..pi.
 
-    This allows us to directly compare angles which cross through 0:
+This allows us to directly compare angles which cross through 0:
 
-        359 degress... 0 degrees... 1 degree... etc
+    359 degress... 0 degrees... 1 degree... etc
 
-    Parameters:
-        a : first angle, in radians
-        b : second angle, in radians
+Parameters:
+    a : first angle, in radians
+    b : second angle, in radians
 
-    Returns:
-        b - a, in radians
-
+Returns:
+    b - a, in radians
 """
 function diff_angle(a, b)
     if b < a
@@ -127,19 +139,19 @@ function diff_angle(a, b)
 end
 
 """
+    dms_to_d(deg, minute, second)
 
 Convert an angle in degree components to decimal degrees.
 
-    if any of the components are negative the result will also be negative.
+If any of the components are negative the result will also be negative.
 
-    Parameters:
-        deg : degrees
-        min : minutes
-        sec : seconds
+Parameters:
+    deg : degrees
+    min : minutes
+    sec : seconds
 
-    Returns:
-        decimal degrees
-
+Returns:
+    decimal degrees
 """
 function dms_to_d(deg, minute, second)
     result = abs(deg) + (abs(minute) / 60) + (abs(second) / 3600)
@@ -150,45 +162,19 @@ function dms_to_d(deg, minute, second)
 end
 
 """
+    hangle_to_dec_deg(hour, minute, second)
 
 Convert an hour angle in hour, minute, seconds to decimal degrees.
 
-     ??if any of the components are negative the result will also be negative.??
+?if any of the components are negative the result will also be negative.?
 
-    Parameters:
-        hour : hours
-        min : minutes
-        sec : seconds
+Parameters:
+    hour : hours
+    min : minutes
+    sec : seconds
 
-    Returns:
-        decimal degrees
-
-        The local hour angle (LHA) of an object in the observer's sky is
-
-        LHA
-        object
-        LST
-        α
-        object
-         (If result is negative, add 360 degrees. If result is greater than 360, subtract 360 degrees.)
-        or
-        LHA
-        object
-        GST
-        λ
-        observer
-        α
-        object
-
-        where LHAobject is the local hour angle of the object, LST is the local sidereal time,
-        α
-        object
-         is the object's right ascension, GST is Greenwich sidereal time and
-        λ
-        observer
-         is the observer's longitude (positive west from the prime meridian).[3] These angles can be measured in time (24 hours to a circle) or in degrees (360 degrees to a circle)— one or the other, not both.
-
-        Negative hour angles indicate the time until the next transit across the meridian; an hour angle of zero means the object is on the meridian.
+Returns:
+    decimal degrees
 
 """
 function hangle_to_dec_deg(hour, minute, second)
@@ -207,17 +193,17 @@ end
 # end
 
 """
+    fday_to_hms(day)
 
 Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
 
-    Parameters:
-        day : a fractional day in the range 0.0..1.0
+Parameters:
+    day : a fractional day in the range 0.0..1.0
 
-    Returns:
-        hour : 0..23
-        minute : 0..59
-        seccond : 0..59
-
+Returns:
+    hour : 0..23
+    minute : 0..59
+    second : 0..59
 """
 function fday_to_hms(day)
     global seconds_per_day
@@ -227,21 +213,21 @@ function fday_to_hms(day)
     hour = thour % 24
     minutes = tmin % 60
     seconds = tsec % 60
-    return ( floor(Integer, hour),  floor(Integer, minutes), seconds)
+    return (floor(Integer, hour),  floor(Integer, minutes), seconds)
 end
 
 """
+    hms_to_fday(hr, mn, seconds)
 
 Convert hours-minutes-seconds into a fractional day 0.0..1.0.
 
-    Parameters:
-        hr : hours, 0..23
-        mn : minutes, 0..59
-        sec : seconds, 0..59
+Parameters:
+    hr : hours, 0..23
+    mn : minutes, 0..59
+    sec : seconds, 0..59
 
-    Returns:
-        fractional day, 0.0..1.0
-
+Returns:
+    fractional day, 0.0..1.0
 """
 function hms_to_fday(hr, mn, seconds)
     global minutes_per_day, seconds_per_day
@@ -249,27 +235,27 @@ function hms_to_fday(hr, mn, seconds)
 end
 
 """
+    radianstime_to_fday(tr)
 
-Convert a time of day in radians to fractional day 0 through 1
-
+Convert a time of day in radians to fractional day 0 through 1.
 """
 function radianstime_to_fday(tr)
     return (tr / (2 * pi))
 end
 
 """
+    interpolate3(n, y)
 
 Interpolate from three equally spaced tabular values.
 
-    [Meeus-1998 equation 3.3]
+[Meeus-1998 equation 3.3]
 
-    Parameters:
-        n : the interpolating factor, must be between -1 and 1
-        y : a sequence of three values
+Parameters:
+    n : the interpolating factor, must be between -1 and 1
+    y : a sequence of three values
 
-    Results:
-        the interpolated value of y
-
+Results:
+    the interpolated value of y
 """
 function interpolate3(n, y)
     if (n < -1) || (n > 1)
@@ -282,22 +268,22 @@ function interpolate3(n, y)
 end
 
 """
+    interpolate_angle3(n, y)
 
 Interpolate from three equally spaced tabular angular values.
 
-    [Meeus-1998 equation 3.3]
+[Meeus-1998 equation 3.3]
 
-    This version is suitable for interpolating from a table of
-    angular values which may cross the origin of the circle,
-    for example: 359 degrees...0 degrees...1 degree.
+This version is suitable for interpolating from a table of
+angular values which may cross the origin of the circle,
+for example: 359 degrees...0 degrees...1 degree.
 
-    Parameters:
-        n : the interpolating factor, must be between -1 and 1
-        y : a sequence of three values
+Parameters:
+    n : the interpolating factor, must be between -1 and 1
+    y : a sequence of three values
 
-    Results:
-        the interpolated value of y
-
+Results:
+    the interpolated value of y
 """
 function interpolate_angle3(n, y)
     if (n < -1) || (n > 1)
@@ -306,29 +292,34 @@ function interpolate_angle3(n, y)
     a = diff_angle(y[1], y[2])
     b = diff_angle(y[2], y[3])
     c = diff_angle(a, b)
-    return y[2] + n/2 * (a + b + n*c)
+    return y[2] + n/2 * (a + b + n * c)
 end
 
 """
+    polynomial(coefficients, x)
 
 Evaluate a simple polynomial.
 
-    Where: terms[1] is constant, terms[2] is for x, terms[3] is for x^2, etc.
+Where: terms[1] is constant, terms[2] is for x, terms[3] is for x^2, etc.
 
-    Example:
-        y = polynomial((1.1, 2.2, 3.3, 4.4), t)
+Example:
 
-        returns the value of:
+```
+y = polynomial((1.1, 2.2, 3.3, 4.4), t)
+```
 
-            1.1 + 2.2 * t + 3.3 * t^2 + 4.4 * t^3
+returns the value of:
 
-    Parameters:
-        terms : sequence of coefficients
-        x : variable value
+```
+1.1 + 2.2 * t + 3.3 * t^2 + 4.4 * t^3
+```
 
-    Results:
-        value of the polynomial
+Parameters:
+    terms : sequence of coefficients
+    x : variable value
 
+Results:
+    value of the polynomial
 """
 function polynomial(coefficients, x)
     result = 0
@@ -340,23 +331,29 @@ end
 
 """
 
-alternatively use this from math.jl
+Alternatively use this from Julia:
 
-     Example
-        y = @polynomial_horner(x, p1, p2, p3)
+Example
 
-        evaluates p[1] + x     *      (p[2] + x * (....)),
+```
+y = @polynomial_horner(x, p1, p2, p3)
+```
 
-    Notice the arguments are differently ordered from polynomial() above!
+evaluates
 
-    Parameters:
-        x : variable value
-        term1 : coefficient 1
-        ...
+```
+p[1] + x *  (p[2] + x * (....)),
+```
 
-    Results:
-        value of the polynomial
+Notice the arguments are differently ordered from `polynomial()` above!
 
+Parameters:
+    x : variable value
+    term1 : coefficient 1
+    ...
+
+Results:
+    value of the polynomial
 """
 macro polynomial_horner(x, p...)
     ex = esc(p[end])
@@ -364,16 +361,4 @@ macro polynomial_horner(x, p...)
         ex = :($(esc(p[i])) + t * $ex)
     end
     Expr(:block, :(t = $(esc(x))), ex)
-end
-
-function set_latitude(lat)
-     global latitude = lat
-end
-
-function set_longitude(long)
-     global longitude = long
-end
-
-function set_obliquity(ob)
-     global currentobliquity = ob
 end

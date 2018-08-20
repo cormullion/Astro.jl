@@ -3,17 +3,18 @@ export
     biorhythm
 
 """
-    Some pseudoscience. Don't know where these come from, but they're quite funny.
+    biorhythm(jd_origin, jd_current)
 
-    Return some biorhythm stuff
+Some pseudoscience. Don't know where these come from, but they're quite funny.
 
-    Parameters:
-        jd_origin
-        jd_current
+Return some biorhythm stuff
 
-    Return:
-        four biorhythms
+Parameters:
+    jd_origin
+    jd_current
 
+Return:
+    four biorhythms
 """
 function biorhythm(jd_origin, jd_current)
     pi2 = pi * 2
@@ -28,15 +29,16 @@ function biorhythm(jd_origin, jd_current)
 end
 
 """
-    Return starsign for solar system body for a particular date
+    astrology(body, jd)
 
-    Parameters:
-        body : "Sun" or planet, one of "Mercury", "Venus", "Earth", "Mars",
-            "Jupiter", "Saturn", "Uranus", "Neptune"
+Return star sign for solar system body for a particular date
 
-    Return:
-        starsign: string of star sign
+Parameters:
+    body : "Sun" or planet, one of "Mercury", "Venus", "Earth", "Mars",
+        "Jupiter", "Saturn", "Uranus", "Neptune"
 
+Return:
+    starsign: string of star sign
 """
 function astrology(body, jd)
     global days_per_second

@@ -1,3 +1,21 @@
+# A collection of date and time functions.
+#
+# Some of these have/should be changed to use the built-in Dates module.
+#
+# The functions which use Julian Day Numbers are valid only for positive values,
+# i.e., for dates after -4712 (4713BC).
+#
+# Unless otherwise specified, Julian Day Numbers are fractional values.
+#
+# Numeric years use the astronomical convention of a year 0: 0 = 1BC, -1 = 2BC,
+# etc.
+#
+# Numeric months are 1-based: Jan = 1 Dec = 12.
+#
+# Numeric days are the same as the calendar value.
+#
+# Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
+
 export
     is_leap_year,
     cal_to_jd,
@@ -19,31 +37,16 @@ export
     ut_to_lt
 
 """
-A collection of date and time functions.
+    is_leap_year(yr, gregorian=true)
 
-Some of these have/should be changed to use the built-in Dates module.
+Parameters:
+yr        : year
+gregorian : If True, use Gregorian calendar, else use Julian calendar (default: True)
 
-The functions which use Julian Day Numbers are valid only for positive values, i.e., for dates after -4712 (4713BC).
+Return:
+True is this is a leap year, else False.
 
-Unless otherwise specified, Julian Day Numbers are fractional values.
-
-Numeric years use the astronomical convention of a year 0: 0 = 1BC, -1 = 2BC, etc.
-
-Numeric months are 1-based: Jan = 1 Dec = 12.
-
-Numeric days are the same as the calendar value.
-
-Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998, Willmann-Bell, Inc.
-
-    Return True if this is a leap year in the Julian or Gregorian calendars
-
-    Parameters:
-        yr        : year
-        gregorian : If True, use Gregorian calendar, else use Julian calendar (default: True)
-
-    Return:
-        True is this is a leap year, else False.
-
+Return True if this is a leap year in the Julian or Gregorian calendars
 """
 function is_leap_year(yr, gregorian=true)
     yr =  floor(Integer, yr)
@@ -55,6 +58,7 @@ function is_leap_year(yr, gregorian=true)
 end
 
 """
+    cal_to_jd(yr, mo, day, gregorian=true)
 
 Convert a date in the Julian or Gregorian calendars to the Julian Day Number
 
@@ -85,14 +89,20 @@ function cal_to_jd(yr, mo, day, gregorian=true)
 end
 
 """
-be careful with the next two as they don't take into account the current Daylight Savings Time.
+    date_to_jd(yr, mo, d, h, m, s, gregorian=true)
 
+be careful as they don't take into account the current Daylight Savings Time.
 """
 function date_to_jd(yr, mo, d, h, m, s, gregorian=true)
    return(cal_to_jd(yr, mo, d, gregorian) + hms_to_fday(h,m,s))
 end
 
-function jd_to_date(jd::Float64, gregorian=true)
+"""
+    jd_to_date(jd, gregorian=true)
+
+be careful as they don't take into account the current Daylight Savings Time.
+"""
+function jd_to_date(jd, gregorian=true)
     (y, month, df) = jd_to_cal(jd, gregorian)
     (f, d) = modf(df)
     (h, m, s) = fday_to_hms(f)
@@ -100,22 +110,22 @@ function jd_to_date(jd::Float64, gregorian=true)
 end
 
 """
+    jd_to_cal(jd, gregorian=true)
 
 Convert a Julian day number to a date in the Julian or Gregorian calendars.
 
-    Parameters:
-        jd        : Julian Day number
-        gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
+Parameters:
+    jd        : Julian Day number
+    gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
 
-    Return:
-        year
-        month
-        day (may be fractional)
+Return:
+    year
+    month
+    day (may be fractional)
 
-    Return a tuple (year, month, day).
-
+Return a tuple (year, month, day).
 """
-function jd_to_cal(jd::Float64, gregorian=true)
+function jd_to_cal(jd, gregorian=true)
     (F, Z) = modf(jd + 0.5)
     if gregorian
         alpha =  floor(Integer, ((Z - 1867216.25) / 36524.25))
@@ -145,9 +155,9 @@ function jd_to_cal(jd::Float64, gregorian=true)
 end
 
 """
+    cal_to_jd_m(yr, mo, day, gregorian=true)
 
 Meeus' implementation of cal_to_jd - which gives the same results
-
 """
 function cal_to_jd_m(yr, mo, day, gregorian=true)
     if mo <= 2
@@ -164,18 +174,18 @@ function cal_to_jd_m(yr, mo, day, gregorian=true)
 end
 
 """
+    cal_to_day_of_year(yr, mo, dy, gregorian=true)
 
 Convert a date in the Julian or Gregorian calendars to day of the year (Meeus 7.1).
 
-    Parameters:
-        yr        : year
-        mo        : month
-        day       : day
-        gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
+Parameters:
+    yr        : year
+    mo        : month
+    day       : day
+    gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
 
-    Return:
-        day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
-
+Return:
+    day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
 """
 function cal_to_day_of_year(yr, mo, dy, gregorian=true)
     if gregorian == false
@@ -191,17 +201,18 @@ function cal_to_day_of_year(yr, mo, dy, gregorian=true)
 end
 
 """
- Convert a day of year number to a month and day in the Julian or Gregorian calendars.
+    day_of_year_to_cal(yr, N, gregorian=true)
 
-    Parameters:
-        yr        : year
-        N        : day of year, 1..365 (or 366 for leap years)
-        gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
+Convert a day of year number to a month and day in the Julian or Gregorian calendars.
 
-    Return:
-        month
-        day
+Parameters:
+    yr        : year
+    N        : day of year, 1..365 (or 366 for leap years)
+    gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
 
+Return:
+    month
+    day
 """
 function day_of_year_to_cal(yr, N, gregorian=true)
     if is_leap_year(yr, gregorian)
@@ -219,16 +230,18 @@ function day_of_year_to_cal(yr, N, gregorian=true)
 end
 
 """
+    pesach(yr, gregorian=true)
 
 Return the date of Jewish Pesach  for a year in the Julian or Gregorian calendars.
 
-    Parameters:
-        yr        : year (in the Jewish calendar)
-        gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
+Parameters:
+    yr        : year (in the Jewish calendar)
+    gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
 
-    Return:
-        month
-        day
+Return:
+    month
+    day
+
 Meeus - chapter 9
 """
 function pesach(yr, gregorian=true)
@@ -260,6 +273,10 @@ function pesach(yr, gregorian=true)
     end
 end
 
+"""
+    jewish_new_year(yr)
+
+"""
 function jewish_new_year(yr)
     gr_yr = yr-1-3760
     (m, d) = pesach(yr-1)
@@ -268,17 +285,18 @@ function jewish_new_year(yr)
 end
 
 """
+    moslem_to_christian(h, m, d)
 
 Converts a date in the moslem calendar to a date in the Christian calendar
 Meeus - chapter 9
-    Input: h - moslem yearhe christian year
-           m - moslem month number
-           d - moslem day
-    Returns: yr, month, day in the christian calendar
 
-    This function will return meaningless results if called with a date earlier than
-    622, July 16th
+Input: h - moslem yearhe christian year
+       m - moslem month number
+       d - moslem day
+Returns: yr, month, day in the christian calendar
 
+This function will return meaningless results if called with a date earlier than
+622, July 16th
 """
 function moslem_to_christian(h, m, d)
     N = d +  floor(Integer, 29.5001*(m-1)+0.99)
@@ -326,6 +344,10 @@ function moslem_to_christian(h, m, d)
     return (X, M, D)
 end
 
+"""
+    christian_to_moslem(X, M, D, gregorian=true)
+
+"""
 function christian_to_moslem(X, M, D, gregorian=true)
     # first convert the gregorian date to a julian date
     if gregorian
@@ -398,20 +420,21 @@ function christian_to_moslem(X, M, D, gregorian=true)
 end
 
 """
+    easter(yr, gregorian=true)
 
 Return the date of Western ecclesiastical Easter for a year in the Julian or Gregorian calendars.
 
-    Parameters:
-        yr        : year
-        gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
+Parameters:
+    yr        : year
+    gregorian : if True, use Gregorian calendar, else use Julian calendar (default: True)
 
-    Return:
-        month
-        day
+Return:
+    month
+    day
 
-     Julian formula found in Meeus.
-     Gregorian formula taken from Wikipedia (for the formula published in Nature, April 20th, 1876)
+Julian formula found in Meeus.
 
+Gregorian formula taken from Wikipedia (for the formula published in Nature, April 20th, 1876)
 """
 function easter(yr, gregorian=true)
     yr =  floor(Integer, yr)
@@ -443,36 +466,38 @@ function easter(yr, gregorian=true)
 end
 
 """
+    jd_to_day_of_week(jd::Float64)
+
 Return the day of week for a Julian Day Number.
 
-    The Julian Day Number must be for 0h UT.
+The Julian Day Number must be for 0h UT.
 
-    Parameters:
-        jd : Julian Day number
+Parameters:
+    jd : Julian Day number
 
-    Return:
-        day of week: 0 = Sunday...6 = Saturday.
+Return:
+    day of week: 0 = Sunday...6 = Saturday.
 
 """
-function jd_to_day_of_week(jd::Float64)
+function jd_to_day_of_week(jd)
     i = jd + 1.5
     return  floor(Integer, i) % 7
 end
 
 """
+    is_dst(jd)
 
 Is this instant within the Daylight Savings Time period
 
 # for Europe: last sunday of march 1:00UTC to last sunday of october 1:00UTC
 
-    if daylight_timezone_name is false, the function always returns false.
+if daylight_timezone_name is false, the function always returns false.
 
-    Parameters:
-        jd : Julian Day number representing an instant in Universal Time
+Parameters:
+    jd : Julian Day number representing an instant in Universal Time
 
-    Return:
-        True if Daylight Savings Time is in effect, False otherwise.
-
+Return:
+    True if Daylight Savings Time is in effect, False otherwise.
 """
 function is_dst(jd::Float64)
     global daylight_timezone_name
@@ -510,21 +535,23 @@ function is_dst(jd::Float64)
 end
 
 """
+    jd_to_jcent(jd)
 
 Return the number of Julian centuries since J2000.0
 
-    Parameters:
-        jd : Julian Day number
+Parameters:
+    jd : Julian Day number
 
-    Return:
-        Julian centuries
-
+Return:
+    Julian centuries
 """
-function jd_to_jcent(jd::Float64)
+function jd_to_jcent(jd)
     return (jd - 2451545.0) / 36525.0
 end
 
 """
+    lt_to_str(jd, zone="", level="second")
+
 This now uses Julia Dates module. Timezones are currently not done - everything's in UTC.
 
 Convert time in Julian Days to a formatted string.
@@ -548,7 +575,7 @@ Convert time in Julian Days to a formatted string.
         formatted date/time string
 
 """
-function lt_to_str(jd::Float64, zone="", level="second")
+function lt_to_str(jd, zone="", level="second")
     (yr, mon, day) = jd_to_cal(jd)
     (fday, iday) = modf(day)
     iday =  floor(Integer, iday)
@@ -571,22 +598,23 @@ function lt_to_str(jd::Float64, zone="", level="second")
 end
 
 """
+    ut_to_lt(jd)
 
 Convert universal time in Julian Days to a time.
 
-    Include Daylight Savings Time offset, if any.
+Include Daylight Savings Time offset, if any.
 
-    Parameters:
-        jd : Julian Day number, universal time
+Parameters:
+    jd : Julian Day number, universal time
 
-    Return:
-        Julian Day number, time
-        zone string of the zone used for the conversion
+Return:
+    Julian Day number, time
+    zone string of the zone used for the conversion
 
 not yet doing time zones... :(
 
 """
-function ut_to_lt(jd::Float64)
+function ut_to_lt(jd)
     global daylight_timezone_name, daylight_timezone_offset, standard_timezone_name, standard_timezone_offset
     if is_dst(jd)
         zone   = daylight_timezone_name

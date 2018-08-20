@@ -48,31 +48,35 @@ _tb = Array[
     [3, 0,  0,        0,        0,        1,        0,        10,        3] ]
 
 """
+    heliocentric_pluto(jd)
 
-    Compute heliocentric coordinates of Pluto.
-    Meeus - chapter 37
-    will return meaningless results if called for a date before 1885 or after 2099
+Compute heliocentric coordinates of Pluto.
 
-    Input: jd in dynamic time
-    Returns : heliocentric longitude and latitude (relative  to J2000.0 equinox)
-              heliocentric radius in AU
+Meeus - chapter 37
+
+will return meaningless results if called for a date before 1885 or after 2099
+
+Input: jd in dynamic time
+
+Returns : heliocentric longitude and latitude (relative  to J2000.0 equinox)
+          heliocentric radius in AU
 
 """
 function heliocentric_pluto(jd)
     T = jd_to_jcent(jd)
-    J = deg2rad(34.35 + 3034.9057*T) # Mean longitude of Jupiter
-    S = deg2rad(50.08 + 1222.1138*T) # Mean longitude of Saturn
-    P = deg2rad(238.96 + 144.9600*T) # Mean longitude of Pluto
+    J = deg2rad(34.35 + 3034.9057 * T) # Mean longitude of Jupiter
+    S = deg2rad(50.08 + 1222.1138 * T) # Mean longitude of Saturn
+    P = deg2rad(238.96 + 144.9600 * T) # Mean longitude of Pluto
 
     (l, b, r) = 0, 0 , 0
 
     for (i, j, k, Al, Bl, Ab, Bb, Ar, Br) in _tb
-        alpha = i*J + j*S + k*P
+        alpha = i * J + j * S + k * P
         s = sin(alpha)
         c = cos(alpha)
-        l = l + Al*s + Bl*c
-        b = b + Ab*s + Bb*c
-        r = r + Ar*s + Br*c
+        l = l + Al * s + Bl * c
+        b = b + Ab * s + Bb * c
+        r = r + Ar * s + Br * c
     end
     l = l * 1e-6 + 238.958116 + 144.96 * T
     b = b * 1e-6 - 3.908239
@@ -80,6 +84,13 @@ function heliocentric_pluto(jd)
     return (l, b, r)
 end
 
+"""
+    geocentric_pluto(jd)
+
+Compute geocentric coordinates of Pluto.
+
+Return x, y, z
+"""
 function geocentric_pluto(jd)
     (l, b, r) = heliocentric_pluto(jd)
     x = r * cos(l) * cos(b)

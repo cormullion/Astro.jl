@@ -52,32 +52,31 @@ equinox_terms = Array[
     ]
 
 """
-equinox_approx(yr, season)
+    equinox_approx(yr, season)
 
 Returns the approximate time of a solstice or equinox event.
 
-    The year must be in the range -1000...3000. Within that range the
-    the error from the precise instant is at most 2.16 minutes.
+The year must be in the range -1000...3000. Within that range the the error from
+the precise instant is at most 2.16 minutes.
 
-    Parameters:
-        yr     : year -1000 ... 3000
-        season : one of ("spring", "summer", "autumn", "winter")
+Parameters:
+    yr     : year -1000 ... 3000
+    season : one of ("spring", "summer", "autumn", "winter")
 
-    Returns:
-        Julian Day of the event in dynamical time
-
+Returns:
+    Julian Day of the event in dynamical time
 """
 function equinox_approx(yr, season)
     if yr < -1000 || yr > 3000
-      error("year is out of range")
+        error("year is out of range")
     end
-    yr =  floor(Integer, yr)
+    yr = floor(Integer, yr)
     if yr > -1000 && yr <= 1000
-      Y = yr / 1000.0
-      tbl = equinox_approx_1000
+        Y = yr / 1000.0
+        tbl = equinox_approx_1000
     else
-      Y = (yr - 2000) / 1000.0
-      tbl = equinox_approx_3000
+        Y = (yr - 2000) / 1000.0
+        tbl = equinox_approx_3000
     end
     jd = polynomial(tbl[season], Y)
     T = jd_to_jcent(jd)
@@ -101,19 +100,18 @@ equinox_circle = Dict{AbstractString, Float64}(
 equinox_k_sun_motion = 365.25 / (pi * 2)
 
 """
-equinox(jd, season, delta)
+    equinox(jd, season, delta)
 
-    Return the precise moment of an equinox or solstice event on Earth.
+Return the precise moment of an equinox or solstice event on Earth.
 
-    Parameters:
-        jd     : Julian Day of an approximate time of the event in dynamical time
-        season : one of ("spring", "summer", "autumn", "winter")
-        delta  : the required precision in days. Times accurate to a second are
-            reasonable when using the VSOP model.
+Parameters:
+    jd     : Julian Day of an approximate time of the event in dynamical time
+    season : one of ("spring", "summer", "autumn", "winter")
+    delta  : the required precision in days. Times accurate to a second are
+        reasonable when using the VSOP model.
 
-    Returns:
-        Julian Day of the event in dynamical time
-
+Returns:
+    Julian Day of the event in dynamical time
 """
 function equinox(jd::Float64, season, delta)
     # TODO this fails

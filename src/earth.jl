@@ -3,16 +3,16 @@ export
     geographical_to_geocentric_lat
 
 """
+    geodesic_distance(L1, B1, L2, B2)
 
-    Computes the geodesic distance between two points on the Earth with a ~50 meters precision
-    
-    Parameters:
-    L1, B1 : longitude and latitude of the first point (in radians)
-    L2, B2 : longitude and latitude of the second point (in radians)
-        
-    Returns:
-        distance in km
+Computes the geodesic distance between two points on the Earth with a ~50 meters precision
 
+Parameters:
+L1, B1 : longitude and latitude of the first point (in radians)
+L2, B2 : longitude and latitude of the second point (in radians)
+
+Returns:
+    distance in km
 """
 function geodesic_distance(L1, B1, L2, B2)
     global earth_equ_radius, earth_flattening
@@ -25,33 +25,34 @@ function geodesic_distance(L1, B1, L2, B2)
     cG = cos(G)
     sl = sin(lambda)
     cl = cos(lambda)
-    
+
     S = sG*sG*cl*cl+cF*cF*sl*sl
     C = cG*cG*cl*cl+sF*sF*sl*sl
-    
+
     omega = atan(sqrt(S/C))
     R = sqrt(S*C)/omega
     H1 = (3*R - 1)/2/C
     H2 = (3*R + 1)/2/S
     D  = 2*omega*earth_equ_radius
-    
+
     return D * (1 + earth_flattening * (H1 * sF * sF * cG * cG - H2 * cF * cF * sG *sG))
 end
 
 """
-Convert geographical latitude to geocentric latitude
-    
-    [Meeus-1998: chapter 11]
-    
-    Parameters:
-        phi : geographical latitude in radians
-        H   : altitude of the observer above sea level
-          
-    Returns:
-        phi1: geocentric latitude in radians
-        rho*sin(phi1)
-        rho*cos(phi1)
+    geographical_to_geocentric_lat(phi, H)
 
+Convert geographical latitude to geocentric latitude
+
+[Meeus-1998: chapter 11]
+
+Parameters:
+    phi : geographical latitude in radians
+    H   : altitude of the observer above sea level
+
+Returns:
+    phi1: geocentric latitude in radians
+    rho*sin(phi1)
+    rho*cos(phi1)
 """
 function geographical_to_geocentric_lat(phi, H)
     global earth_flattening
