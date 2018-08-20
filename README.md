@@ -1,8 +1,10 @@
 # Astro - astronomy formulas and some time/date code in Julia
 
-This module tried to implement some of Jan Meeus' astronomical formulas.
+This module implement some of Jan Meeus' astronomical formulas.
 
-A better and more comprehensive library of astronomical routines can be found at [JuliaAstro/AstroLib](https://github.com/JuliaAstro/AstroLib.jl).
+It was written while I was learning Julia version 0.3, and some of the code looks to have aged poorly, altnough it runs in Julia version 1.0.
+
+A better and far more comprehensive library of astronomical routines can be found at [JuliaAstro/AstroLib](https://github.com/JuliaAstro/AstroLib.jl).
 
 ## Usage
 
