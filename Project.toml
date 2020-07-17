@@ -1,0 +1,16 @@
+name = "Astro"
+uuid = "324073ee-18b3-5bb5-9814-eb63cac12ff7"
+authors = ["cormullion <cormullion@mac.com>"]
+version = "0.0.1"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
+
+[compat]
+julia = "1"
