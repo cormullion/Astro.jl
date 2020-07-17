@@ -2,9 +2,9 @@
 
 This module implement some of Jan Meeus' astronomical formulas in Julia.
 
-It was written while I was learning Julia version 0.2 and 0.3, and some of the code looks to have aged poorly, although it runs OK in Julia version 1.0.
+It was written while I was learning Julia version 0.2 and 0.3, and some of the code looks to have aged poorly, although it kind of runs OK in Julia version 1.0.
 
-A better and more comprehensive library of astronomical routines can be found at [JuliaAstro/AstroLib](https://github.com/JuliaAstro/AstroLib.jl).
+A much better and more comprehensive library of astronomical routines can be found at [JuliaAstro/AstroLib](https://github.com/JuliaAstro/AstroLib.jl).
 
 ## Usage
 
@@ -26,19 +26,19 @@ ra_deg = ra_rad / 2pi |> fday_to_hms
 #-> (22, 33, 29.10833089183143) # RA 22 33 29.1
 ```
 
-What phase is the moon on October 31 2014:
+What is the current phase of the moon:
 
 ```
-jd = date_to_jd(2014, 10, 31, 0, 0, 0);
- moon_illuminated_fraction_high(jd)[1]
+jd = Dates.datetime2julian(now())
+moon_illuminated_fraction_high(jd)[1]
 
-#-> 0.48777635849493634
+#-> 0.12195292764741428
 ```
 
 What age is it:
 
 ```moon_age_location(jd)[1]
-#-> 7.302239900906831
+#-> 26.54878954261963
 ```
 
 What is the current Greenwich Sidereal Time:
@@ -49,16 +49,24 @@ apparent_sidereal_time_greenwich(Dates.datetime2julian(now())) |> radianstime_to
 #-> (7, 55, 41.038224676074606) or 7:55:41
 ```
 
-Where is Mercury at the moment?
+Calculate the apparent position of Venus on 1992 December 20. Apparent RA should be 316.172791 = 21h.078194 = 21h04m41.50. Apparent Declination should be -18.88801 = -18d53m16.8s.
 
 ```
-println("Right Ascension: ", fday_to_hms(radianstime_to_fday(ra)))
-# (8, 53, 12.632065656522173)
+using Astro, Dates
+jd = Dates.datetime2julian(Dates.DateTime(1992, 12, 20, 0, 0, 0))
+
+ra, decl = geocentric_planet(jd, "Venus", nut_in_lon(jd), obliquity_high(jd) , days_per_second)
+
+dayfraction = radianstime_to_fday(ra)
+
+println("Right Ascension: ", fday_to_hms(dayfraction))
+
+Right Ascension: (21, 4, 43.468973979426664)
 
 println("Declination: ", rad2deg(decl))
-#  Declination: 14.963269087821232
+
+Declination: -18.88572837948753
 ```
-JPL give Right Ascension: 08h 53m 01.4s and Declination: 15° 12' 04.5"
 
 ## Reference
 
